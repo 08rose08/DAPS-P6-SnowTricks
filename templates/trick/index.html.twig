@@ -1,41 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Trick index{% endblock %}
+{% block title %}SnowTricks{% endblock %}
 
 {% block body %}
-    <h1>Trick index</h1>
+<header class="masthead">
+    <div class="container h-75 d-flex align-items-center">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Image</th>
-                <th>Video</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+        <h1 class="mx-auto">Phrase d'accroche</h1>
+    </div>
+
+</header>
+<main class="container my-5">
+    <section class="d-flex flex-wrap justify-content-between">
         {% for trick in tricks %}
-            <tr>
-                <td>{{ trick.id }}</td>
-                <td>{{ trick.name }}</td>
-                <td>{{ trick.description }}</td>
-                <td>{{ trick.image }}</td>
-                <td>{{ trick.video }}</td>
-                <td>
-                    <a href="{{ path('trick_show', {'id': trick.id}) }}">show</a>
-                    <a href="{{ path('trick_edit', {'id': trick.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            <div class="card mb-3 col-11 col-md-3 mx-md-2">
+                <img src="{{ trick.image }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <div class="d-flex flex-warp">
+                        <h5 class="card-title flex-grow-1"><a href="{{ path('trick_show', {'id': trick.id}) }}">{{ trick.name }}</a></h5>
+                        {% if not app.user %}
+                            <div class="flex-shrink-1">
+                                <a href="{{ path('trick_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                                <a href="{{ path('trick_delete', {'id': trick.id}) }}"><i class="fas fa-trash-alt"></i></a>
 
+                            </div>
+
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
     <a href="{{ path('trick_new') }}">Create new</a>
+</main>        
 {% endblock %}
