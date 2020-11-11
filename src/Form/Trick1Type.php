@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TrickType extends AbstractType
+class Trick1Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -16,6 +16,8 @@ class TrickType extends AbstractType
             ->add('description')
             ->add('image')
             ->add('video')
+            ->add('createdAt')
+            ->add('editAt')
             ->add('FigType')
         ;
     }

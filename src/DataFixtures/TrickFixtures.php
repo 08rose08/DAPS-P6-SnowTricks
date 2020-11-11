@@ -11,6 +11,7 @@ class TrickFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
+        $faker = \Faker\Factory::create('fr_FR');
 
         $figTypes = ['Grab', 'Rotation', 'Flip', 'Slide'];
 
@@ -22,10 +23,15 @@ class TrickFixtures extends Fixture
             for($i = 1; $i <= 3; $i++){
                 $trick = new Trick();
                 $trick->setName("Trick n°$i")
-                      ->setDescription("La description du trick n°$i")
-                      ->setImage("http://placehold.it/200x100")
-                      ->setFigType($figType);
+                    ->setDescription("La description du trick n°$i")
+                    ->setImage("http://placehold.it/200x100")
+                    ->setFigType($figType)
+                    ->setCreatedAt($faker->dateTimeBetween('-6 months'));
+                $days = (new \DateTime())->diff($trick->getCreatedAt())->days;
+                $trick->setEditAt($faker->dateTimeBetween('-' . $days . ' days'));
                 $manager->persist($trick);
+
+
             }
 
         }

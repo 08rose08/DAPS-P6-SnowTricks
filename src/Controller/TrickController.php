@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
-use App\Form\TrickType;
+use App\Form\Trick1Type;
 use App\Repository\TrickRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,12 +24,12 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="trick_new", methods={"GET","POST"})
+     * @Route("trick/new", name="trick_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
         $trick = new Trick();
-        $form = $this->createForm(TrickType::class, $trick);
+        $form = $this->createForm(Trick1Type::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -47,7 +47,7 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="trick_show", methods={"GET"})
+     * @Route("trick/{id}", name="trick_show", methods={"GET"})
      */
     public function show(Trick $trick): Response
     {
@@ -57,11 +57,11 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="trick_edit", methods={"GET","POST"})
+     * @Route("trick/{id}/edit", name="trick_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Trick $trick): Response
     {
-        $form = $this->createForm(TrickType::class, $trick);
+        $form = $this->createForm(Trick1Type::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -77,7 +77,7 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="trick_delete", methods={"DELETE"})
+     * @Route("trick/{id}", name="trick_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Trick $trick): Response
     {

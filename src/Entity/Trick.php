@@ -43,6 +43,16 @@ class Trick
      */
     private $FigType;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $editAt;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +114,30 @@ class Trick
     public function setFigType(?FigType $FigType): self
     {
         $this->FigType = $FigType;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getEditAt(): ?\DateTimeInterface
+    {
+        return $this->editAt;
+    }
+
+    public function setEditAt(\DateTimeInterface $editAt): self
+    {
+        $this->editAt = $editAt;
 
         return $this;
     }
