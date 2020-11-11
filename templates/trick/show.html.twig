@@ -3,36 +3,43 @@
 {% block title %}Trick{% endblock %}
 
 {% block body %}
-    <h1>Trick</h1>
+    <section class="d-flex justify-content-center">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ trick.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ trick.name }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ trick.description }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td>{{ trick.image }}</td>
-            </tr>
-            <tr>
-                <th>Video</th>
-                <td>{{ trick.video }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <article class="card col-md-10 my-md-5 p-0">
+            <img src="{{ trick.image }}" alt="">
+            <div class="card-img-overlay d-flex flex-column">
+                <div class="bg-dark ml-auto card flex-row py-2 px-3">
+                    <a href="{{ path('trick_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt pr-3"></i></a>
+                    <a href="{{ path('trick_delete', {'id': trick.id}) }}"><i class="fas fa-trash-alt"></i></a>
+                </div>
+                <h1 class="card-title text-center">{{ trick.name }}</h1>
+            </div>
+            <div class="card-body">
+                {# ici images et videos #}
+                <div class="card-text">
+                    {{ trick.description }}
+                </div>
+                <p class="text-center">
+                    <span class="badge badge-secondary">{{ trick.figType.name }}</span>
+                    <span class="badge badge-primary">{{ trick.createdAt|date('d/m/Y à H:i') }}</span>
+                    <span class="badge badge-info">{{ trick.editAt ? trick.editAt|date('d/m/Y H:i') : '' }}</span>
+                </p>
+                <hr>
+                {% if app.user %}
+                    {# {{ include('comment/_form.html.twig') }} #}
+                    <hr>
+                {% endif %}
+                {# {{ include('comment/index.html.twig') }} #}
+            </div>
+            
+        </article>
+    </section>
 
-    <a href="{{ path('trick_index') }}">back to list</a>
+
+
+    {# <a href="{{ path('trick_index') }}">back to list</a>
 
     <a href="{{ path('trick_edit', {'id': trick.id}) }}">edit</a>
 
-    {{ include('trick/_delete_form.html.twig') }}
+    {{ include('trick/_delete_form.html.twig') }} #}
 {% endblock %}

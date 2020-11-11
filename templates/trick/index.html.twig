@@ -3,34 +3,33 @@
 {% block title %}SnowTricks{% endblock %}
 
 {% block body %}
-<header class="masthead">
-    <div class="container h-75 d-flex align-items-center">
+    <header class="masthead">
+        <div class="container h-75 d-flex align-items-center">
+            <h1 class="mx-auto">Phrase d'accroche</h1>
+        </div>
 
-        <h1 class="mx-auto">Phrase d'accroche</h1>
-    </div>
+    </header>
+    <main class="container my-5 d-flex flex-column align-items-center">
+        <section class="d-flex flex-column flex-md-row flex-md-wrap align-items-center justify-content-md-center">
+            {% for trick in tricks %}
+                <div class="card mb-3 col-11 col-md-3 col-lg-2 mx-md-2 p-0">
+                    <img src="{{ trick.image }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <div class="d-flex flex-warp">
+                            <h2 class="card-title flex-grow-1"><a href="{{ path('trick_show', {'id': trick.id}) }}">{{ trick.name }}</a></h5>
+                            {% if not app.user %}
+                                <div class="flex-shrink-1">
+                                    <a href="{{ path('trick_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                                    <a href="{{ path('trick_delete', {'id': trick.id}) }}"><i class="fas fa-trash-alt"></i></a>
 
-</header>
-<main class="container my-5">
-    <section class="d-flex flex-wrap justify-content-between">
-        {% for trick in tricks %}
-            <div class="card mb-3 col-11 col-md-3 mx-md-2">
-                <img src="{{ trick.image }}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <div class="d-flex flex-warp">
-                        <h5 class="card-title flex-grow-1"><a href="{{ path('trick_show', {'id': trick.id}) }}">{{ trick.name }}</a></h5>
-                        {% if not app.user %}
-                            <div class="flex-shrink-1">
-                                <a href="{{ path('trick_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt"></i></a>
-                                <a href="{{ path('trick_delete', {'id': trick.id}) }}"><i class="fas fa-trash-alt"></i></a>
+                                </div>
 
-                            </div>
-
-                        {% endif %}
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
-    </section>
-    <a href="{{ path('trick_new') }}">Create new</a>
-</main>        
+            {% endfor %}
+        </section>
+        <a href="{{ path('trick_new') }}">Create new</a>
+    </main>        
 {% endblock %}
