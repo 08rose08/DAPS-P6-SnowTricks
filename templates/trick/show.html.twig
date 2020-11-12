@@ -6,7 +6,7 @@
     <section class="d-flex justify-content-center">
 
         <article class="card col-md-10 my-md-5 p-0">
-            <img src="{{ trick.image }}" alt="">
+            <img src="{{ trick.image }}" alt="" class="rounded-top">
             <div class="card-img-overlay d-flex flex-column">
                 <div class="bg-dark ml-auto card flex-row py-2 px-3">
                     <a href="{{ path('trick_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt pr-3"></i></a>
@@ -24,12 +24,12 @@
                     <span class="badge badge-primary">{{ trick.createdAt|date('d/m/Y à H:i') }}</span>
                     <span class="badge badge-info">{{ trick.editAt ? trick.editAt|date('d/m/Y H:i') : '' }}</span>
                 </p>
-                <hr>
-                {% if app.user %}
-                    {# {{ include('comment/_form.html.twig') }} #}
-                    <hr>
-                {% endif %}
-                {# {{ include('comment/index.html.twig') }} #}
+                <hr class="in-trick">
+                {#{% if app.user %}#}
+                     {#{{ include('comment/_form.html.twig') }} #}
+                    <hr class="in-trick">
+                {#{% endif %}#}
+                {{ include('comment/_index.html.twig') }}
             </div>
             
         </article>
