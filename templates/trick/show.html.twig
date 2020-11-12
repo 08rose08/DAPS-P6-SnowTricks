@@ -15,7 +15,7 @@
                 <h1 class="card-title text-center">{{ trick.name }}</h1>
             </div>
             <div class="card-body">
-                {# ici images et videos #}
+                {{ include('trick/_gallery.html.twig') }}
                 <div class="card-text">
                     {{ trick.description }}
                 </div>
@@ -25,10 +25,10 @@
                     <span class="badge badge-info">{{ trick.editAt ? trick.editAt|date('d/m/Y H:i') : '' }}</span>
                 </p>
                 <hr class="in-trick">
-                {#{% if app.user %}#}
+                {% if app.user %}
                      {#{{ include('comment/_form.html.twig') }} #}
                     <hr class="in-trick">
-                {#{% endif %}#}
+                {% endif %}
                 {{ include('comment/_index.html.twig') }}
             </div>
             

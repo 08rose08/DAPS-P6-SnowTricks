@@ -3,9 +3,12 @@
 {% block title %}New Trick{% endblock %}
 
 {% block body %}
-    <h1>Create new Trick</h1>
+    <section class="container">
+        <h1>The Trick</h1>
+        
+        {{ include('trick/_form.html.twig') }}
+    </section>
 
-    {{ include('trick/_form.html.twig') }}
 
     <a href="{{ path('trick_index') }}">back to list</a>
 {% endblock %}

@@ -6,6 +6,7 @@ use App\Entity\Trick;
 use App\Form\Trick1Type;
 use App\Repository\TrickRepository;
 use App\Repository\CommentRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,24 +27,33 @@ class TrickController extends AbstractController
 
     /**
      * @Route("trick/new", name="trick_new", methods={"GET","POST"})
+     * @Route("trick/{id}/edit", name="trick_edit", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Trick $trick = null, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $trick = new Trick();
+        if(!$trick) {
+            $trick = new Trick();
+        }
+
         $form = $this->createForm(Trick1Type::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            if(!$trick->getId()){
+                $trick->setCreatedAt(new \Datetime());
+                
+            }else{
+                $trick->setEditAt(new \Datetime());
+            }
+
             $entityManager->persist($trick);
             $entityManager->flush();
 
-            return $this->redirectToRoute('trick_index');
+            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
         }
 
         return $this->render('trick/new.html.twig', [
-            'trick' => $trick,
-            'form' => $form->createView(),
+            'formTrick' => $form->createView()  
         ]);
     }
 
@@ -57,10 +67,10 @@ class TrickController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("trick/{id}/edit", name="trick_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Trick $trick): Response
+    ///**
+    // * @Route("trick/{id}/edit", name="trick_edit", methods={"GET","POST"})
+    // */
+    /*public function edit(Request $request, Trick $trick): Response
     {
         $form = $this->createForm(Trick1Type::class, $trick);
         $form->handleRequest($request);
@@ -73,9 +83,9 @@ class TrickController extends AbstractController
 
         return $this->render('trick/edit.html.twig', [
             'trick' => $trick,
-            'form' => $form->createView(),
+            'formTrick' => $form->createView(),
         ]);
-    }
+    }*/
 
     /**
      * @Route("trick/{id}", name="trick_delete", methods={"DELETE"})
