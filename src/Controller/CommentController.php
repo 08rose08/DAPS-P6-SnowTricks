@@ -28,7 +28,7 @@ class CommentController extends AbstractController
     /**
      * @Route("/new", name="comment_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request)//: Response
     {
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
@@ -42,10 +42,11 @@ class CommentController extends AbstractController
             return $this->redirectToRoute('comment_index');
         }
 
-        return $this->render('comment/new.html.twig', [
+        /*return $this->render('comment/new.html.twig', [
             'comment' => $comment,
             'form' => $form->createView(),
-        ]);
+        ]);*/
+        return $form->createView();
     }
 
     /**

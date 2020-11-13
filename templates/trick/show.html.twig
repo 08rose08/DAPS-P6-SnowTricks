@@ -16,18 +16,23 @@
             </div>
             <div class="card-body">
                 {{ include('trick/_gallery.html.twig') }}
-                <div class="card-text">
+
+                <div class="card-text my-3">
+
                     {{ trick.description }}
                 </div>
-                <p class="text-center">
+                <p class="text-center mt-3 mb-4">
                     <span class="badge badge-secondary">{{ trick.figType.name }}</span>
                     <span class="badge badge-primary">{{ trick.createdAt|date('d/m/Y à H:i') }}</span>
                     <span class="badge badge-info">{{ trick.editAt ? trick.editAt|date('d/m/Y H:i') : '' }}</span>
                 </p>
                 <hr class="in-trick">
+
+                {{ include('comment/_form.html.twig', {'button_label': 'Leave a comment'}) }}
+                <hr class="in-trick">
                 {% if app.user %}
                      {#{{ include('comment/_form.html.twig') }} #}
-                    <hr class="in-trick">
+
                 {% endif %}
                 {{ include('comment/_index.html.twig') }}
             </div>
