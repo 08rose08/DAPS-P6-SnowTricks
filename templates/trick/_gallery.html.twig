@@ -1,0 +1,14 @@
+{# {% if trick.image %}
+    <div class="card">
+
+    </div>
+{% endif %}
+
+{% if trick.video %}
+    <div class="card d-flex flex-row">
+        <iframe width="560" height="315" src="{{ trick.video }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <video src="{{ trick.video }}" width="320" height="240" controls>
+            Your browser does not support the video tag.
+        </video> 
+    </div>
+{% endif %} #}

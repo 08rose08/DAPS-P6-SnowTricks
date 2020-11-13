@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Trick;
 use App\Form\Trick1Type;
 use App\Repository\TrickRepository;
+use App\Controller\CommentController;
 use App\Repository\CommentRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,10 +51,12 @@ class TrickController extends AbstractController
     /**
      * @Route("trick/{id}", name="trick_show", methods={"GET"})
      */
-    public function show(Trick $trick, CommentRepository $commentRepository): Response
+    public function show(Trick $trick, Request $request, CommentController $commentController): Response
     {   
+        $commentForm = $commentController->new($request);
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
+            'commentForm' => $commentForm,
         ]);
     }
 
