@@ -16,7 +16,9 @@
             </div>
             <div class="card-body">
                 {{ include('trick/_gallery.html.twig') }}
+
                 <div class="card-text my-3">
+
                     {{ trick.description }}
                 </div>
                 <p class="text-center mt-3 mb-4">
@@ -26,12 +28,11 @@
                 </p>
                 <hr class="in-trick">
 
-                
-
                 {{ include('comment/_form.html.twig', {'button_label': 'Leave a comment'}) }}
                 <hr class="in-trick">
                 {% if app.user %}
                      {#{{ include('comment/_form.html.twig') }} #}
+
                 {% endif %}
                 {{ include('comment/_index.html.twig') }}
             </div>

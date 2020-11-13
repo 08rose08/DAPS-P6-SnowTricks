@@ -1,7 +1,5 @@
 @charset "UTF-8";
-hr.in-trick {
-    border-top: 2px solid;
-}
+
 .masthead {
     position: relative;
     width: 100%;
@@ -53,6 +51,36 @@ hr.in-trick {
         max-width: 30rem;
         font-size: 1.25rem;
     }
+}
+
+
+
+/*@-webkit-keyframes spinner-anim {
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+    
+}*/
+    
+@keyframes spinner-anim {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        /*-webkit-transform: rotate(360deg);*/
+        transform: rotate(360deg);
+    }
+}
+    
+.btn-spinner:hover > .spinner-anim {
+    /*-webkit-animation: spinner-anim 1s linear infinite;*/
+    animation: spinner-anim 1s linear infinite;
+}
+    
+
+hr.in-trick {
+    border-top: 2px solid;
 }
 
 .user-img {
