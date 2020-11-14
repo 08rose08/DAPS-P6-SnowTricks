@@ -5,10 +5,11 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/comment")
@@ -28,14 +29,16 @@ class CommentController extends AbstractController
     /**
      * @Route("/new", name="comment_new", methods={"GET","POST"})
      */
-    public function new(Request $request)//: Response
+    public function new(Request $request, EntityManagerInterface $entityManager)//: Response
     {
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $comment->setCreatedAt(new \Datetime());
+            //ajouter user + trick
+
             $entityManager->persist($comment);
             $entityManager->flush();
 
