@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Entity\Trick;
 use App\Entity\Comment;
 use App\Form\CommentType;
+use App\Controller\TrickController;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,20 +32,33 @@ class CommentController extends AbstractController
     /**
      * @Route("/new", name="comment_new", methods={"GET","POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager)//: Response
+    public function new(Comment $comment = null, Trick $trick, Request $request, EntityManagerInterface $entityManager)//: Response
     {
-        $comment = new Comment();
+        if(!$comment) {
+            $comment = new Comment();
+        }
+
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setCreatedAt(new \Datetime());
+            $trick->addComment($comment);
+            $user = $this->getUser();
+            $user->addComment($comment);
             //ajouter user + trick
-
+            //var_dump($user);
             $entityManager->persist($comment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('comment_index');
+            //var_dump($comment);
+            //return $this->redirectToRoute('trick_index');
+            
+            //c'est quoi this ?
+            return $this->render('trick/show.html.twig', [
+                'trick' => $trick,
+                'commentForm' => $form->createView(),
+            ]);
         }
 
         /*return $this->render('comment/new.html.twig', [
