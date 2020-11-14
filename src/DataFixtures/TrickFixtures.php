@@ -14,13 +14,12 @@ class TrickFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = \Faker\Factory::create('fr_FR');
-
     
         $user = new User();
-        $user->setName('Rose')
+        $user->setUserame('Rose')
             ->setEmail('rose@test.fr')
             ->setImage($faker->imageUrl($width = 200, $height = 200, 'people'))
-            ->setPassword('test');
+            ->setPassword('$2y$13$P0tD1QEnEH4k.WasoWZ3veW7LBloElZL.OwK5v1yGfBCYrai0wja2');
         $manager->persist($user);
         
 
