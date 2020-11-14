@@ -28,9 +28,9 @@
                 </p>
                 <hr class="in-trick">
 
-                {{ include('comment/_form.html.twig', {'button_label': 'Leave a comment'}) }}
-                <hr class="in-trick">
                 {% if app.user %}
+                    {{ include('comment/_form.html.twig', {'button_label': 'Leave a comment'}) }}
+                    <hr class="in-trick">
                      {#{{ include('comment/_form.html.twig') }} #}
 
                 {% endif %}
