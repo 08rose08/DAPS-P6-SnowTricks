@@ -16,8 +16,8 @@
                     <img src="{{ trick.image }}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <div class="d-flex flex-warp">
-                            <h2 class="card-title flex-grow-1"><a href="{{ path('trick_show', {'id': trick.id}) }}">{{ trick.name }}</a></h5>
-                            {% if not app.user %}
+                            <h5 class="card-title flex-grow-1"><a href="{{ path('trick_show', {'id': trick.id}) }}">{{ trick.name }}</a></h5>
+                            {% if app.user %}
                                 <div class="flex-shrink-1">
                                     <a href="{{ path('trick_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt"></i></a>
                                     <a href="{{ path('trick_delete', {'id': trick.id}) }}"><i class="fas fa-trash-alt"></i></a>

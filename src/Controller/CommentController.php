@@ -53,12 +53,17 @@ class CommentController extends AbstractController
 
             //var_dump($comment);
             //return $this->redirectToRoute('trick_index');
-            
+            //$comment = new Comment();
             //c'est quoi this ?
-            return $this->render('trick/show.html.twig', [
+            /*return $this->render('trick/show.html.twig', [
                 'trick' => $trick,
                 'commentForm' => $form->createView(),
-            ]);
+            ]);*/
+            $comment = null;
+            $formClean = $this->createForm(CommentType::class, $comment);
+
+            return $formClean->createView();
+
         }
 
         /*return $this->render('comment/new.html.twig', [
