@@ -62,7 +62,7 @@ class CommentController extends AbstractController
             $comment = null;
             $formClean = $this->createForm(CommentType::class, $comment);
 
-            return $formClean->createView();
+            //return $formClean->createView();
 
         }
 

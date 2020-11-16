@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page de profil : {{ user.username }}{% endblock %}
+
+{% block body %}
+    <section class="d-flex justify-content-center">
+
+        <article class="card col-md-10 my-md-5">
+
+            <h1  class="card-title text-center pt-4">Profil de {{ user.username }} </h1>
+            <div class="card-body">
+                <div class="card-text">
+                    <p>Email : {{ user.email }}</p>
+                    <p>
+                        Photo de profil : 
+                        {% if user.image %}
+                            <img class="user-img ml-0" src="{{ asset('img/avatar/' ~ user.image) }}" alt=""> 
+                        {% else %}
+                            Pas de fichier enregistré.
+                        {% endif %}
+                        
+                    </p>
+                    <p>
+                        {{ form_start(form) }}
+                            {{ form_row(form.image) }}
+                            <button class="btn btn-lg btn-primary m-auto" type="submit">
+                                Enregistrer l'image
+                            </button>
+                        {{ form_end(form) }}
+                    </p>
+                </div>
+
+            </div>
+        </article>
+    </section>
+{% endblock %}
