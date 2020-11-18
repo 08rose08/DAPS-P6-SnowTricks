@@ -61,7 +61,9 @@ class CommentController extends AbstractController
             ]);*/
             $comment = null;
             $formClean = $this->createForm(CommentType::class, $comment);
-
+            
+            //$this->addFlash('info', 'Commentaire ajouté!');
+            
             //return $formClean->createView();
 
         }

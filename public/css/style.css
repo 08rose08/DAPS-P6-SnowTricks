@@ -66,6 +66,7 @@
 @keyframes spinner-anim {
     from {
         transform: rotate(0deg);
+        transform-origin: 50% 50%;
     }
     to {
         /*-webkit-transform: rotate(360deg);*/
@@ -74,8 +75,8 @@
 }
     
 .btn-spinner:hover > .spinner-anim {
-    /*-webkit-animation: spinner-anim 1s linear infinite;*/
-    animation: spinner-anim 1s linear infinite;
+    /*-webkit-animation: spinner-anim 1s ease infinite;*/
+    animation: spinner-anim 1s ease infinite;
 }
     
 

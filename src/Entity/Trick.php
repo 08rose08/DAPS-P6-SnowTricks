@@ -183,4 +183,5 @@ class Trick
 
         return $this;
     }
+
 }

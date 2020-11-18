@@ -5,15 +5,18 @@ namespace App\Repository;
 use App\Entity\Trick;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * @method Trick|null find($id, $lockMode = null, $lockVersion = null)
  * @method Trick|null findOneBy(array $criteria, array $orderBy = null)
  * @method Trick[]    findAll()
- * @method Trick[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+ //* @method Trick[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
 class TrickRepository extends ServiceEntityRepository
 {
+    public const PAGINATOR_PER_PAGE = 5;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Trick::class);
@@ -47,4 +50,55 @@ class TrickRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByPaginator(int $i): Paginator
+    {
+        $query = $this->createQueryBuilder('t')
+            
+            
+            ->orderBy('t.createdAt', 'DESC')
+            ->setMaxResults(self::PAGINATOR_PER_PAGE * $i)
+            ->setFirstResult(0)
+            ->getQuery()
+        ;
+
+        return new Paginator($query);
+    }
+
+    /*public function nbComments(Trick $trick)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT COUNT(*) AS nb_comments FROM comment WHERE trick_id = :id'
+        )->setParameter('id', $trick->getId());
+        return $query->getResult();
+    }*/
+
+    /*public function getCommentsPage($comment1, $nbCommentsPage, $trick)
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->where('c.trick = :trick')
+            ->setParameter('trick', $trick)
+            ->setFirstResult($comment1)
+            ->setMaxResult($nbCommentsPage)
+            ->orderBy('c.createdAt' , 'DESC');
+
+        $query = $qb->getQuery();
+        return $query->execute();*/
+        
+        /*$entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT c 
+            FROM App/Entity/Comment c
+            WHERE c.trick = :trick
+            ORDER BY c.createdAt DESC
+            LIMIT :comment1, :nbCommentsPage
+            '
+        )->setParameter('trick', $trick);
+
+        return $query->getResult();
+
+    }*/
 }

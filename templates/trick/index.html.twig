@@ -16,7 +16,7 @@
                     <img src="{{ trick.image }}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <div class="d-flex flex-warp">
-                            <h5 class="card-title flex-grow-1"><a href="{{ path('trick_show', {'id': trick.id}) }}">{{ trick.name }}</a></h5>
+                            <h5 class="card-title flex-grow-1"><a href="{{ path('trick_show', {'id': trick.id }) }}">{{ trick.name }}</a></h5>
                             {% if app.user %}
                                 <div class="flex-shrink-1">
                                     <a href="{{ path('trick_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt"></i></a>
@@ -31,9 +31,13 @@
             {% endfor %}
         </section>
         <a href="{{ path('trick_new') }}">Create new</a>
-        <button class="btn btn-primary d-flex btn-spinner" type="button" disabled>
-            <div class="spinner-anim mr-2"><i class="fas fa-spinner "></i></div>
-            Load more
-        </button>
+        {% if i < nbPagesMax %}
+            <a href="{{ path('trick_index', {'i': i }) }}">
+                <button class="btn btn-primary d-flex btn-spinner" type="button" >
+                    <div class="spinner-anim mr-2 my-auto"><i class="fas fa-spinner "></i></div>
+                    Load more
+                </button>
+            </a>
+        {% endif %}
     </main>        
 {% endblock %}

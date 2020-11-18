@@ -20,10 +20,20 @@ class TrickController extends AbstractController
     /**
      * @Route("/", name="trick_index", methods={"GET"})
      */
-    public function index(TrickRepository $trickRepository): Response
+    public function index(TrickRepository $trickRepository, Request $request): Response
     {
+        $i = max(0, $request->query->getInt('i', 0));
+        var_dump($i);
+        $i++;
+        var_dump($i);
+        
+        $nbPagesMax = ceil(count($trickRepository->findAll()) / TrickRepository::PAGINATOR_PER_PAGE);
+        var_dump($nbPagesMax);
+
         return $this->render('trick/index.html.twig', [
-            'tricks' => $trickRepository->findAll(),
+            'tricks' => $trickRepository->findByPaginator($i),
+            'i' => $i,
+            'nbPagesMax' => $nbPagesMax,
         ]);
     }
 
@@ -62,13 +72,33 @@ class TrickController extends AbstractController
     /**
      * @Route("trick/{id}", name="trick_show", methods={"GET", "POST"})
      */
-    public function show(Comment $comment = null, Trick $trick, Request $request, CommentController $commentController, EntityManagerInterface $entityManager): Response
+    public function show(Comment $comment = null, Trick $trick, Request $request, CommentController $commentController, EntityManagerInterface $entityManager, CommentRepository $commentRepository): Response
     {   
         $commentForm = $commentController->new($comment, $trick, $request, $entityManager);
         //$comment = null;
+        //$nbComments = count($trick->getComments());
+
+        /*if(empty($numPage)) {$numPage = 1;};
+        $nbCommentsPage = 5;
+        $nbPages = ceil($nbComments / $nbCommentsPage);
+        $comment1 = ($numPage - 1) * $nbCommentsPage;
+        $comments = $commentRepository->getCommentsPage($trick, $comment1);
+        */
+        $offset = max(0, $request->query->getInt('offset', 0));
+        //var_dump($offset);
+        $paginator = $commentRepository->findByPaginator($trick, $offset);
+
+        $previous = $offset - CommentRepository::PAGINATOR_PER_PAGE;
+        var_dump($previous);
+        $next = min(count($paginator), $offset + CommentRepository::PAGINATOR_PER_PAGE);
+        var_dump($next);
+
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
             'commentForm' => $commentForm,
+            'comments' => $paginator,
+            'previous' => $offset - CommentRepository::PAGINATOR_PER_PAGE,
+            'next' => min(count($paginator), $offset + CommentRepository::PAGINATOR_PER_PAGE),
         ]);
     }
 
