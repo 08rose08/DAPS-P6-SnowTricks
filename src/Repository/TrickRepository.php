@@ -11,11 +11,11 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  * @method Trick|null find($id, $lockMode = null, $lockVersion = null)
  * @method Trick|null findOneBy(array $criteria, array $orderBy = null)
  * @method Trick[]    findAll()
- * @method Trick[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+ //* @method Trick[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
 class TrickRepository extends ServiceEntityRepository
 {
-    //public const PAGINATOR_PER_PAGE = 3;
+    public const PAGINATOR_PER_PAGE = 5;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -51,19 +51,19 @@ class TrickRepository extends ServiceEntityRepository
     }
     */
 
-    /*public function findByPaginator(Trick $trick, int $offset): Paginator
+    public function findByPaginator(int $i): Paginator
     {
-        $query = $this->createQueryBuilder('c')
-            ->andWhere('c.trick = :trick')
-            ->setParameter('trick', $trick)
-            ->orderBy('c.createdAt', 'DESC')
-            ->setMaxResults(self::PAGINATOR_PER_PAGE)
-            ->setFirstResult($offset)
+        $query = $this->createQueryBuilder('t')
+            
+            
+            ->orderBy('t.createdAt', 'DESC')
+            ->setMaxResults(self::PAGINATOR_PER_PAGE * $i)
+            ->setFirstResult(0)
             ->getQuery()
         ;
 
         return new Paginator($query);
-    }*/
+    }
 
     /*public function nbComments(Trick $trick)
     {

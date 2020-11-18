@@ -20,10 +20,20 @@ class TrickController extends AbstractController
     /**
      * @Route("/", name="trick_index", methods={"GET"})
      */
-    public function index(TrickRepository $trickRepository): Response
+    public function index(TrickRepository $trickRepository, Request $request): Response
     {
+        $i = max(0, $request->query->getInt('i', 0));
+        var_dump($i);
+        $i++;
+        var_dump($i);
+        
+        $nbPagesMax = ceil(count($trickRepository->findAll()) / TrickRepository::PAGINATOR_PER_PAGE);
+        var_dump($nbPagesMax);
+
         return $this->render('trick/index.html.twig', [
-            'tricks' => $trickRepository->findAll(),
+            'tricks' => $trickRepository->findByPaginator($i),
+            'i' => $i,
+            'nbPagesMax' => $nbPagesMax,
         ]);
     }
 
