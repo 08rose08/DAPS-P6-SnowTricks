@@ -23,12 +23,9 @@ class TrickController extends AbstractController
     public function index(TrickRepository $trickRepository, Request $request): Response
     {
         $i = max(0, $request->query->getInt('i', 0));
-        var_dump($i);
         $i++;
-        var_dump($i);
         
         $nbPagesMax = ceil(count($trickRepository->findAll()) / TrickRepository::PAGINATOR_PER_PAGE);
-        var_dump($nbPagesMax);
 
         return $this->render('trick/index.html.twig', [
             'tricks' => $trickRepository->findByPaginator($i),
@@ -89,9 +86,9 @@ class TrickController extends AbstractController
         $paginator = $commentRepository->findByPaginator($trick, $offset);
 
         $previous = $offset - CommentRepository::PAGINATOR_PER_PAGE;
-        var_dump($previous);
+        //var_dump($previous);
         $next = min(count($paginator), $offset + CommentRepository::PAGINATOR_PER_PAGE);
-        var_dump($next);
+        //var_dump($next);
 
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
