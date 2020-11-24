@@ -3,8 +3,8 @@
 {% block title %}Trick{% endblock %}
 
 {% block body %}
-    <section class="d-flex justify-content-center">
 
+    <main class=" d-flex justify-content-center">
         <article class="card col-md-10 my-md-5 p-0">
             <img src="{{ trick.image }}" alt="" class="rounded-top">
             <div class="card-img-overlay d-flex flex-column">
@@ -36,9 +36,8 @@
                 {% endif %}
                 {{ include('comment/_index.html.twig') }}
             </div>
-            
         </article>
-    </section>
+    </main>
 
 
 

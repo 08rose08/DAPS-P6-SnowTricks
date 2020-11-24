@@ -51,13 +51,12 @@ class TrickRepository extends ServiceEntityRepository
     }
     */
 
-    public function findByPaginator(int $i): Paginator
+    public function findByPaginator(int $rang): Paginator
     {
         $query = $this->createQueryBuilder('t')
             
-            
             ->orderBy('t.createdAt', 'DESC')
-            ->setMaxResults(self::PAGINATOR_PER_PAGE * $i)
+            ->setMaxResults(self::PAGINATOR_PER_PAGE * $rang)
             ->setFirstResult(0)
             ->getQuery()
         ;

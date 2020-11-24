@@ -31,8 +31,8 @@
             {% endfor %}
         </section>
         <a href="{{ path('trick_new') }}">Create new</a>
-        {% if i < nbPagesMax %}
-            <a href="{{ path('trick_index', {'i': i }) }}">
+        {% if rang < nbPagesMax %}
+            <a id="load_more" href="{{ path('trick_more', {'rang': rang }) }}">
                 <button class="btn btn-primary d-flex btn-spinner" type="button" >
                     <div class="spinner-anim mr-2 my-auto"><i class="fas fa-spinner "></i></div>
                     Load more
@@ -40,4 +40,26 @@
             </a>
         {% endif %}
     </main>        
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    function clickLoadMore(event){
+        event.preventDefault();
+        
+        const URL = this.href;
+
+        $.ajax({
+            url: URL,
+            success: function(response){
+                console.log(response);
+            }
+        })
+    };
+    
+    let loadMore = document.querySelector('#load-more');
+    loadMore.addEventListener('click', clickLoadMore);
+
+
+</script>
 {% endblock %}
