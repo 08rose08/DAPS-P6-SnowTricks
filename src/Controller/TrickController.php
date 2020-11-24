@@ -43,9 +43,9 @@ class TrickController extends AbstractController
         $tricks = $trickRepository->findByPaginator($rang);
         $rang++;
 
-        return $this->json(['code' => 200, 'tricks' => $tricks, 'rang' => $rang], 200); 
+        //return $this->json(['code' => 200, 'tricks' => $tricks, 'rang' => $rang], 200); 
         //return $this->json(['code' => 200, 'tricks' => $tricks, 'rang' => $rang], 200, [], ['groups' => 'loadMore']); 
-        //return $this->json(['code' => 200, 'tricks' => "ici les tricks", 'rang' => $rang], 200);
+        return $this->json(['code' => 200, 'tricks' => "ici les tricks", 'rang' => $rang], 200);
     }
 
     /**
