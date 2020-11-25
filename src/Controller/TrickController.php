@@ -22,16 +22,30 @@ class TrickController extends AbstractController
      */
     public function index(TrickRepository $trickRepository, Request $request): Response
     {
-        $i = max(0, $request->query->getInt('i', 0));
-        $i++;
+        $rang = max(0, $request->query->getInt('rang', 0));
+        $tricks = $trickRepository->findByPaginator($rang);
+        $rang++;
         
         $nbPagesMax = ceil(count($trickRepository->findAll()) / TrickRepository::PAGINATOR_PER_PAGE);
 
         return $this->render('trick/index.html.twig', [
-            'tricks' => $trickRepository->findByPaginator($i),
-            'i' => $i,
+            'tricks' => $tricks,
+            'rang' => $rang,
             'nbPagesMax' => $nbPagesMax,
         ]);
+    }
+    /**
+     * @Route("/more", name="trick_more", methods={"GET"})
+     */
+    public function loadMore(TrickRepository $trickRepository, Request $request)
+    {
+        $rang = max(0, $request->query->getInt('rang', 0));
+        $tricks = $trickRepository->findByPaginator($rang);
+        $rang++;
+
+        //return $this->json(['code' => 200, 'tricks' => $tricks, 'rang' => $rang], 200); 
+        //return $this->json(['code' => 200, 'tricks' => $tricks, 'rang' => $rang], 200, [], ['groups' => 'loadMore']); 
+        return $this->json(['code' => 200, 'tricks' => "ici les tricks", 'rang' => $rang], 200);
     }
 
     /**
