@@ -16,10 +16,10 @@
     {% endfor %}
     
     {% if previous >= 0 %}
-        <a href="{{ path('trick_show', { id: trick.id, offset: previous }) }}">Previous</a>
+        <a class="change_page" href="{{ path('trick_change', { id: trick.id, offset: previous }) }}">Previous</a>
     {% endif %}
     {% if next < comments|length %}
-        <a href="{{ path('trick_show', { id: trick.id, offset: next }) }}">Next</a>
+        <a class="change_page" href="{{ path('trick_change', { id: trick.id, offset: next }) }}">Next</a>
     {% endif %}
 </div>
 
