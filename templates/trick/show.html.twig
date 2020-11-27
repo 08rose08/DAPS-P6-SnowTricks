@@ -7,13 +7,13 @@
     <main class=" d-flex justify-content-center">
         <article class="card col-md-10 my-md-5 p-0">
             <img src="{{ trick.image }}" alt="" class="rounded-top">
-            <div class="card-img-overlay d-flex flex-column">
+            {#<div class="card-img-overlay d-flex flex-column">#}
                 <div class="bg-dark ml-auto card flex-row py-2 px-3">
                     <a href="{{ path('trick_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt pr-3"></i></a>
                     <a href="{{ path('trick_delete', {'id': trick.id}) }}"><i class="fas fa-trash-alt"></i></a>
                 </div>
                 <h1 class="card-title text-center">{{ trick.name }}</h1>
-            </div>
+            {#</div>#}
             <div class="card-body">
                 {{ include('trick/_gallery.html.twig') }}
 
@@ -47,3 +47,27 @@
 
     {{ include('trick/_delete_form.html.twig') }} #}
 {% endblock %}
+
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    function clickChangePage(event){
+        event.preventDefault();
+        
+        const URL = this.href;
+
+        axios.get(URL).then(function(response){
+                console.log(response);
+        });
+            
+        
+    };
+    
+    let changePage = document.querySelector('.change_page');
+    changePage.addEventListener('click', clickChangePage);
+
+
+</script>
+{% endblock %}
+

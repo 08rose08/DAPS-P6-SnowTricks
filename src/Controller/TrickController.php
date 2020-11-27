@@ -112,6 +112,23 @@ class TrickController extends AbstractController
             'next' => min(count($paginator), $offset + CommentRepository::PAGINATOR_PER_PAGE),
         ]);
     }
+    
+    /**
+     * @Route("trick/{id}/changePage", name="trick_change", methods={"GET"})
+     */
+    public function changePage(Trick $trick, Request $request, CommentRepository $commentRepository)
+    {
+        $offset = max(0, $request->query->getInt('offset', 0));
+
+        $comments = $commentRepository->findByPaginator($trick, $offset);
+
+        $previous = $offset - CommentRepository::PAGINATOR_PER_PAGE;
+        $next = min(count($comments), $offset + CommentRepository::PAGINATOR_PER_PAGE);
+
+        // renvoyer aussi le form ? à tester après -> car include différent
+        return $this->json(['code' => 200, 'comments' => "ici les comments", 'previous' => $previous, 'next' => $next], 200);
+
+    }
 
     ///**
     // * @Route("trick/{id}/edit", name="trick_edit", methods={"GET","POST"})
