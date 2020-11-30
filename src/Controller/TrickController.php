@@ -25,7 +25,8 @@ class TrickController extends AbstractController
         $rang = max(0, $request->query->getInt('rang', 0));
         $tricks = $trickRepository->findByPaginator($rang);
         $rang++;
-        
+        //dd($tricks);
+
         $nbPagesMax = ceil(count($trickRepository->findAll()) / TrickRepository::PAGINATOR_PER_PAGE);
 
         return $this->render('trick/index.html.twig', [
@@ -42,10 +43,18 @@ class TrickController extends AbstractController
         $rang = max(0, $request->query->getInt('rang', 0));
         $tricks = $trickRepository->findByPaginator($rang);
         $rang++;
+        //dd($tricks);
+        $nbPagesMax = ceil(count($trickRepository->findAll()) / TrickRepository::PAGINATOR_PER_PAGE);
 
+        $twig = $this->render('trick/_load_more.html.twig', [
+            'tricks' => $tricks,
+            'rang' => $rang,
+            'nbPagesMax' => $nbPagesMax,
+        ]);
+        return $this->json(['code' => 200, 'twig' => $twig], 200);
         //return $this->json(['code' => 200, 'tricks' => $tricks, 'rang' => $rang], 200); 
         //return $this->json(['code' => 200, 'tricks' => $tricks, 'rang' => $rang], 200, [], ['groups' => 'loadMore']); 
-        return $this->json(['code' => 200, 'tricks' => "ici les tricks", 'rang' => $rang], 200);
+        //return $this->json(['code' => 200, 'tricks' => "ici les tricks", 'rang' => $rang], 200);
     }
 
     /**
@@ -125,7 +134,7 @@ class TrickController extends AbstractController
         $previous = $offset - CommentRepository::PAGINATOR_PER_PAGE;
         $next = min(count($comments), $offset + CommentRepository::PAGINATOR_PER_PAGE);
 
-        // renvoyer aussi le form ? à tester après -> car include différent
+        // renvoyer aussi le form ? à tester après -> car include différent -> donc non?
         return $this->json(['code' => 200, 'comments' => "ici les comments", 'previous' => $previous, 'next' => $next], 200);
 
     }

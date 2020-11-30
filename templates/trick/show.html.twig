@@ -6,19 +6,21 @@
 
     <main class=" d-flex justify-content-center">
         <article class="card col-md-10 my-md-5 p-0">
-            <img src="{{ trick.image }}" alt="" class="rounded-top">
-            {#<div class="card-img-overlay d-flex flex-column">#}
-                <div class="bg-dark ml-auto card flex-row py-2 px-3">
-                    <a href="{{ path('trick_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt pr-3"></i></a>
-                    <a href="{{ path('trick_delete', {'id': trick.id}) }}"><i class="fas fa-trash-alt"></i></a>
-                </div>
+            <img src="{{ trick.image }}" alt="Illustration du trick" class="rounded-top">
+            <div class="card-img-overlay d-flex flex-column pointer-events-none">
                 <h1 class="card-title text-center">{{ trick.name }}</h1>
-            {#</div>#}
+            </div>
+            
+            <div class="bg-dark ml-auto card flex-row py-2 px-3 absolute">
+                <a href="{{ path('trick_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt pr-3"></i></a>
+                <a href="{{ path('trick_delete', {'id': trick.id}) }}"><i class="fas fa-trash-alt"></i></a>
+            </div>
+
             <div class="card-body">
+
                 {{ include('trick/_gallery.html.twig') }}
 
                 <div class="card-text my-3">
-
                     {{ trick.description }}
                 </div>
                 <p class="text-center mt-3 mb-4">

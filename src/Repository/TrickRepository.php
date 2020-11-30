@@ -51,7 +51,7 @@ class TrickRepository extends ServiceEntityRepository
     }
     */
 
-    public function findByPaginator(int $rang): Paginator
+    /*public function findByPaginator(int $rang): Paginator
     {
         $query = $this->createQueryBuilder('t')
             
@@ -61,8 +61,21 @@ class TrickRepository extends ServiceEntityRepository
             ->getQuery()
         ;
 
-        return new Paginator($query);
+        return new Paginator($query->execute());
+    }*/
+    public function findByPaginator(int $rang)
+    {
+        $query = $this->createQueryBuilder('t')
+            
+            ->orderBy('t.createdAt', 'DESC')
+            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->setFirstResult(0 + (self::PAGINATOR_PER_PAGE * $rang))
+            ->getQuery()
+        ;
+
+        return $query->execute();
     }
+   
 
     /*public function nbComments(Trick $trick)
     {
