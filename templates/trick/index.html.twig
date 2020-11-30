@@ -11,6 +11,7 @@
     </header>
     <main class="container my-5 d-flex flex-column align-items-center">
         <section class="d-flex flex-column flex-md-row flex-md-wrap align-items-center justify-content-md-center">
+            
             {% for trick in tricks %}
                 <div class="card mb-3 col-11 col-md-3 col-lg-2 mx-md-2 p-0">
                     <img src="{{ trick.image }}" class="card-img-top" alt="...">
@@ -30,15 +31,25 @@
                 </div>
             {% endfor %}
         </section>
-        <a href="{{ path('trick_new') }}">Create new</a>
-        {% if rang < nbPagesMax %}
-            <a id="load_more" href="{{ path('trick_more', {'rang': rang }) }}">
-                <button class="btn btn-primary d-flex btn-spinner" type="button" >
-                    <div class="spinner-anim mr-2 my-auto"><i class="fas fa-spinner "></i></div>
-                    Load more
-                </button>
-            </a>
-        {% endif %}
+        <div id="tools">
+            <a href="{{ path('trick_new') }}">Create new</a>
+            {% if rang < nbPagesMax %}
+                <a id="load_more" href="{{ path('trick_more', {'rang': rang }) }}">
+                    <button class="btn btn-primary d-flex btn-spinner" type="button" >
+                        <div class="spinner-anim mr-2 my-auto"><i class="fas fa-spinner "></i></div>
+                        Load more
+                    </button>
+                </a>
+                {#<a href="{{ path('trick_index', {'rang': rang }) }}">
+                    <button class="btn btn-primary d-flex btn-spinner" type="button" >
+                        <div class="spinner-anim mr-2 my-auto"><i class="fas fa-spinner "></i></div>
+                        Load more
+                    </button>
+                </a>#}
+            {% endif %}
+        </div>
+        
+        
     </main>        
 {% endblock %}
 
@@ -53,12 +64,15 @@
 
         axios.get(URL).then(function(response){
                 console.log(response);
-        });
+                document.getElementById('tools').remove();
+                
+                document.querySelector('section').innerHTML += response.data.twig.content;
+            });
             
         
     };
     
-    let loadMore = document.querySelector('#load_more');
+    let loadMore = document.getElementById('load_more');
     loadMore.addEventListener('click', clickLoadMore);
 
 

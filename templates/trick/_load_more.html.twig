@@ -1,0 +1,32 @@
+            
+    {% for trick in tricks %}
+        <div class="card mb-3 col-11 col-md-3 col-lg-2 mx-md-2 p-0">
+            <img src="{{ trick.image }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <div class="d-flex flex-warp">
+                    <h5 class="card-title flex-grow-1"><a href="{{ path('trick_show', {'id': trick.id }) }}">{{ trick.name }}</a></h5>
+                    
+                    {% if app.user %}
+                        <div class="flex-shrink-1">
+                            <a href="{{ path('trick_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                            <a href="{{ path('trick_delete', {'id': trick.id}) }}"><i class="fas fa-trash-alt"></i></a>
+                        </div>
+                    {% endif %}
+                
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+<div id="tools">
+    <a href="{{ path('trick_new') }}">Create new</a>
+
+    {% if rang < nbPagesMax %}
+        <a id="load_more" href="{{ path('trick_more', {'rang': rang }) }}">
+            <button class="btn btn-primary d-flex btn-spinner" type="button" >
+                <div class="spinner-anim mr-2 my-auto"><i class="fas fa-spinner "></i></div>
+                Load more
+            </button>
+        </a>
+    {% endif %}
+</div>
