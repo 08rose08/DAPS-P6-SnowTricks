@@ -65,13 +65,11 @@
         axios.get(URL).then(function(response){
                 console.log(response);
                 document.getElementById('tools').remove();
-                
                 document.querySelector('section').innerHTML += response.data.twig.content;
-            });
-            
-        
+                let loadMore = document.getElementById('load_more');
+                loadMore.addEventListener('click', clickLoadMore);
+            });  
     };
-    
     let loadMore = document.getElementById('load_more');
     loadMore.addEventListener('click', clickLoadMore);
 
