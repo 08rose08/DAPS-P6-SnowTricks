@@ -36,7 +36,10 @@
                      {#{{ include('comment/_form.html.twig') }} #}
 
                 {% endif %}
-                {{ include('comment/_index.html.twig') }}
+                <div id="comments">
+                    {{ include('comment/_index.html.twig') }}
+                </div>
+                
             </div>
         </article>
     </main>
@@ -61,6 +64,9 @@
 
         axios.get(URL).then(function(response){
                 console.log(response);
+                document.getElementById('comments').innerHTML = response.data.twig.content;
+                let changePage = document.querySelector('.change_page');
+                changePage.addEventListener('click', clickChangePage);
         });
             
         

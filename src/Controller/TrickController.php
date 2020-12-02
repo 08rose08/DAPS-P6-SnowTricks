@@ -134,8 +134,16 @@ class TrickController extends AbstractController
         $previous = $offset - CommentRepository::PAGINATOR_PER_PAGE;
         $next = min(count($comments), $offset + CommentRepository::PAGINATOR_PER_PAGE);
 
+        $twig = $this-> render('comment/_index.html.twig', [
+            'trick' => $trick,
+            'comments' => $comments,
+            'previous' => $previous,
+            'next' => $next,
+
+        ]);
+
         // renvoyer aussi le form ? à tester après -> car include différent -> donc non?
-        return $this->json(['code' => 200, 'comments' => "ici les comments", 'previous' => $previous, 'next' => $next], 200);
+        return $this->json(['code' => 200, 'twig' => $twig], 200);
 
     }
 
