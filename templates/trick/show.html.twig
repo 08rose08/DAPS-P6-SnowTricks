@@ -5,17 +5,17 @@
 {% block body %}
 
     <main class=" d-flex justify-content-center">
-        <article class="card col-md-10 my-md-5 p-0">
-            <img src="{{ trick.image }}" alt="Illustration du trick" class="rounded-top">
+        <article class="card col-md-10 my-md-5 p-0 relative">
+            <img src="{{ asset('img/trick/' ~ trick.image) }}" alt="Illustration du trick" class="rounded-top">
             <div class="card-img-overlay d-flex flex-column pointer-events-none">
                 <h1 class="card-title text-center">{{ trick.name }}</h1>
             </div>
             
-            <div class="bg-dark ml-auto card flex-row py-2 px-3 absolute">
+            <div class="bg-dark ml-auto border-secondary rounded flex-row py-2 px-3 absolute">
                 <a href="{{ path('trick_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt pr-3"></i></a>
                 <a href="{{ path('trick_delete', {'id': trick.id}) }}"><i class="fas fa-trash-alt"></i></a>
             </div>
-
+            
             <div class="card-body">
 
                 {{ include('trick/_gallery.html.twig') }}
@@ -65,11 +65,11 @@
         axios.get(URL).then(function(response){
                 console.log(response);
                 document.getElementById('comments').innerHTML = response.data.twig.content;
-                let changePage = document.querySelector('.change_page');
-                changePage.addEventListener('click', clickChangePage);
-        });
-            
-        
+                let changePage = document.querySelectorAll('.change_page');
+                changePage.forEach(function(nom){
+                    nom.addEventListener('click', clickChangePage);
+                })
+        });  
     };
     
     let changePage = document.querySelector('.change_page');
