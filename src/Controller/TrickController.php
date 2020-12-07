@@ -61,7 +61,7 @@ class TrickController extends AbstractController
      * @Route("trick/new", name="trick_new", methods={"GET","POST"})
      * @Route("trick/{id}/edit", name="trick_edit", methods={"GET","POST"})
      */
-    public function new(Trick $trick = null, Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Trick $trick = null, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         if(!$trick) {
             $trick = new Trick();
@@ -71,6 +71,27 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $imageFile = $form->get('image')->getData();
+
+            if($imageFile)
+            {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+            
+                $safeFilename = $slugger->slug($trick->getId());
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+            
+                try {
+                    $imageFile->move(
+                        $this->getParameter('trick_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $trick->setImage($newFilename);
+            }
+
             if(!$trick->getId()){
                 $trick->setCreatedAt(new \Datetime());
                 
