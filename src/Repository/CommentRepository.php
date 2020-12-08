@@ -15,7 +15,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 // */
 class CommentRepository extends ServiceEntityRepository
 {
-    public const PAGINATOR_PER_PAGE = 3;
+    public const PAGINATOR_PER_PAGE = 10;
     
     public function __construct(ManagerRegistry $registry)
     {
