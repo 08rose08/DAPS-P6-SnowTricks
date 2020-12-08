@@ -19,8 +19,9 @@
     {% endfor %}
 
 <div id="tools">
-    <a href="{{ path('trick_new') }}">Create new</a>
-
+    {% if app.user %}
+        <a href="{{ path('trick_new') }}">Create new</a>
+    {% endif %}
     {% if rang < nbPagesMax %}
         <a id="load_more" href="{{ path('trick_more', {'rang': rang }) }}">
             <button class="btn btn-primary d-flex btn-spinner" type="button" >
