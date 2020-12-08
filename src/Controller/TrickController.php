@@ -12,8 +12,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class TrickController extends AbstractController
 {
@@ -57,11 +59,29 @@ class TrickController extends AbstractController
         //return $this->json(['code' => 200, 'tricks' => "ici les tricks", 'rang' => $rang], 200);
     }
 
+    private function addImg($trick, $request, $slugger, $imageFile)
+    {
+        $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+            
+        $safeFilename = $slugger->slug($trick->getId());
+        $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+    
+        try {
+            $imageFile->move(
+                $this->getParameter('trick_directory'),
+                $newFilename
+            );
+        } catch (FileException $e) {
+            // ... handle exception if something happens during file upload
+        }
+        $trick->setImage($newFilename);
+    }
+
     /**
      * @Route("trick/new", name="trick_new", methods={"GET","POST"})
      * @Route("trick/{id}/edit", name="trick_edit", methods={"GET","POST"})
      */
-    public function new(Trick $trick = null, Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Trick $trick = null, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         if(!$trick) {
             $trick = new Trick();
@@ -71,15 +91,31 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             if(!$trick->getId()){
-                $trick->setCreatedAt(new \Datetime());
-                
+                $trick->setCreatedAt(new \Datetime());                
             }else{
                 $trick->setEditAt(new \Datetime());
             }
-
+      
             $entityManager->persist($trick);
             $entityManager->flush();
+
+
+            $imageFile = $form->get('image')->getData();
+
+            if($imageFile)
+            {
+               $this->addImg($trick, $request, $slugger, $imageFile);
+            }
+            elseif(!$imageFile && !$trick->getImage()) 
+            {
+                $trick->setImage('default.jpg');
+            }
+            
+            $entityManager->persist($trick);
+            $entityManager->flush();
+
 
             return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
         }

@@ -2,10 +2,14 @@
 .pointer-events-none {
     pointer-events: none;
 }
+.pointer-events-auto {
+    pointer-events: auto;
+}
+.relative {
+    position: relative;
+}
 .absolute {
     position: absolute;
-    top : 10px;
-    right: 10px;
 }
 .masthead {
     position: relative;

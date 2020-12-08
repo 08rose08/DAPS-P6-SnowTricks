@@ -7,7 +7,9 @@ use App\Entity\FigType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class Trick1Type extends AbstractType
 {
@@ -21,7 +23,20 @@ class Trick1Type extends AbstractType
                 'label' => 'Type du trick',
             ])
             ->add('description')
-            ->add('image')
+            ->add('image', FileType::class, [
+                'label' => 'Image du trick (.jpg)',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Le fichier n\'est pas valide',                    ])
+                ]
+            ])
             ->add('video')
             //->add('createdAt')
             //->add('editAt')
