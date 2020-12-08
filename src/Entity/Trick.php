@@ -63,9 +63,15 @@ class Trick
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ImageTrick::class, mappedBy="Trick", orphanRemoval=true)
+     */
+    private $imageTricks;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->imageTricks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -181,6 +187,36 @@ class Trick
             // set the owning side to null (unless already changed)
             if ($comment->getTrick() === $this) {
                 $comment->setTrick(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ImageTrick[]
+     */
+    public function getImageTricks(): Collection
+    {
+        return $this->imageTricks;
+    }
+
+    public function addImageTrick(ImageTrick $imageTrick): self
+    {
+        if (!$this->imageTricks->contains($imageTrick)) {
+            $this->imageTricks[] = $imageTrick;
+            $imageTrick->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImageTrick(ImageTrick $imageTrick): self
+    {
+        if ($this->imageTricks->removeElement($imageTrick)) {
+            // set the owning side to null (unless already changed)
+            if ($imageTrick->getTrick() === $this) {
+                $imageTrick->setTrick(null);
             }
         }
 
