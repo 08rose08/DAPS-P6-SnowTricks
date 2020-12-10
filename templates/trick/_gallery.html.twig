@@ -1,14 +1,19 @@
-{# {% if trick.image %}
-    <div class="card">
+<div class="d-flex flex-row mb-3">
+    {% if trick.imageTricks %}
+        {% for image in trick.imageTricks %}
+            <div class="card mb-3 col-11 col-md-3 col-lg-2 mx-md-2">
+                <img src="{{ asset('img/trick/' ~ image.src) }}" alt="" class="card-img">
+            </div>
 
-    </div>
-{% endif %}
-
-{% if trick.video %}
-    <div class="card d-flex flex-row">
-        <iframe width="560" height="315" src="{{ trick.video }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <video src="{{ trick.video }}" width="320" height="240" controls>
-            Your browser does not support the video tag.
-        </video> 
-    </div>
-{% endif %} #}
+        {% endfor %}
+    {% endif %}
+    
+    {# {% if trick.video %}
+        <div class="card d-flex flex-row">
+            <iframe width="560" height="315" src="{{ trick.video }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <video src="{{ trick.video }}" width="320" height="240" controls>
+                Your browser does not support the video tag.
+            </video> 
+        </div>
+    {% endif %} #}
+</div>

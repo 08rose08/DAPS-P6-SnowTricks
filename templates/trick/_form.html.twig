@@ -5,7 +5,13 @@
     {{ form_row(formTrick.figType) }}
     {{ form_row(formTrick.description, {'attr': {'placeholder': "Description du trick"}}) }}
     {{ form_row(formTrick.image) }}
-    {{ form_row(formTrick.video) }}
+    <hr class="in-trick">
+    <p>Illustrations optionnelles :</p>
+    {{ form_row(formTrick.video, {'attr': {'placeholder': "URL"}}) }}
+    {{ form_row(formTrick.image1) }}
+    {{ form_row(formTrick.image2) }}
+    {{ form_row(formTrick.image3) }}
+
 
     <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
 

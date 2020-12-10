@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Trick;
 use App\Entity\Comment;
 use App\Form\Trick1Type;
+use App\Entity\ImageTrick;
 use App\Repository\TrickRepository;
 use App\Controller\CommentController;
 use App\Repository\CommentRepository;
@@ -54,27 +55,33 @@ class TrickController extends AbstractController
             'nbPagesMax' => $nbPagesMax,
         ]);
         return $this->json(['code' => 200, 'twig' => $twig], 200);
-        //return $this->json(['code' => 200, 'tricks' => $tricks, 'rang' => $rang], 200); 
-        //return $this->json(['code' => 200, 'tricks' => $tricks, 'rang' => $rang], 200, [], ['groups' => 'loadMore']); 
-        //return $this->json(['code' => 200, 'tricks' => "ici les tricks", 'rang' => $rang], 200);
     }
 
-    private function addImg($trick, $request, $slugger, $imageFile)
-    {
-        $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+    private function addImg($trick, $request, $entityManager, $slugger, $imageFile)
+    {   
+        if($imageFile)
+        {
+            $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
             
-        $safeFilename = $slugger->slug($trick->getId());
-        $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+            $safeFilename = $slugger->slug($trick->getId());
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
     
-        try {
-            $imageFile->move(
-                $this->getParameter('trick_directory'),
-                $newFilename
-            );
-        } catch (FileException $e) {
-            // ... handle exception if something happens during file upload
+            try {
+                $imageFile->move(
+                    $this->getParameter('trick_directory'),
+                    $newFilename
+                );
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+            
+            $imageTrick = new ImageTrick();
+            $imageTrick->setSrc($newFilename)
+                    ->setTrick($trick);
+            //$trick->addImageTrick($imageTrick);
+            $entityManager->persist($imageTrick);
+            $entityManager->flush();
         }
-        $trick->setImage($newFilename);
     }
 
     /**
@@ -97,26 +104,41 @@ class TrickController extends AbstractController
             }else{
                 $trick->setEditAt(new \Datetime());
             }
-      
             $entityManager->persist($trick);
             $entityManager->flush();
 
-
+            
             $imageFile = $form->get('image')->getData();
-
             if($imageFile)
             {
-               $this->addImg($trick, $request, $slugger, $imageFile);
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+            
+                $safeFilename = $slugger->slug($trick->getId());
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+        
+                try {
+                    $imageFile->move(
+                        $this->getParameter('trick_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $trick->setImage($newFilename);
             }
             elseif(!$imageFile && !$trick->getImage()) 
             {
                 $trick->setImage('default.jpg');
             }
-            
             $entityManager->persist($trick);
             $entityManager->flush();
+            
+            $images = [$form->get('image1')->getData(), $form->get('image2')->getData(), $form->get('image3')->getData()];
+            foreach($images as $imageFile){
+                $this->addImg($trick, $request, $entityManager, $slugger, $imageFile);
+            }
 
-            $this->addFlash('info', 'Commentaire ajouté!');
+            $this->addFlash('info', 'Trick ajouté!');
 
             return $this->redirectToRoute('trick_index');
         }
@@ -132,15 +154,7 @@ class TrickController extends AbstractController
     public function show(Comment $comment = null, Trick $trick, Request $request, CommentController $commentController, EntityManagerInterface $entityManager, CommentRepository $commentRepository): Response
     {   
         $commentForm = $commentController->new($comment, $trick, $request, $entityManager);
-        //$comment = null;
-        //$nbComments = count($trick->getComments());
 
-        /*if(empty($numPage)) {$numPage = 1;};
-        $nbCommentsPage = 5;
-        $nbPages = ceil($nbComments / $nbCommentsPage);
-        $comment1 = ($numPage - 1) * $nbCommentsPage;
-        $comments = $commentRepository->getCommentsPage($trick, $comment1);
-        */
         $offset = max(0, $request->query->getInt('offset', 0));
         //var_dump($offset);
         $paginator = $commentRepository->findByPaginator($trick, $offset);
