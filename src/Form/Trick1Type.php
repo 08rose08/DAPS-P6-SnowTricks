@@ -24,7 +24,7 @@ class Trick1Type extends AbstractType
             ])
             ->add('description')
             ->add('image', FileType::class, [
-                'label' => 'Image du trick (.jpg)',
+                'label' => 'Image principale du trick (.jpg)',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
@@ -40,6 +40,50 @@ class Trick1Type extends AbstractType
             ->add('video')
             //->add('createdAt')
             //->add('editAt')
+            
+            ->add('image1', FileType::class, [
+                'label' => 'Image du trick (.jpg)',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Le fichier n\'est pas valide',                    ])
+                ]
+            ])
+            ->add('image2', FileType::class, [
+                'label' => 'Image du trick (.jpg)',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Le fichier n\'est pas valide',                    ])
+                ]
+            ])
+            ->add('image3', FileType::class, [
+                'label' => 'Image du trick (.jpg)',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Le fichier n\'est pas valide',                    ])
+                ]
+            ])
+            
         ;
     }
 
