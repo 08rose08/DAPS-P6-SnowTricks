@@ -116,8 +116,9 @@ class TrickController extends AbstractController
             $entityManager->persist($trick);
             $entityManager->flush();
 
+            $this->addFlash('info', 'Commentaire ajouté!');
 
-            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('trick_index');
         }
 
         return $this->render('trick/new.html.twig', [

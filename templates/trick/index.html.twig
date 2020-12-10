@@ -12,6 +12,10 @@
     <main class="container my-5 d-flex flex-column align-items-center">
         <section class="d-flex flex-column flex-md-row flex-md-wrap align-items-center justify-content-md-center">
             
+            {% for message in app.flashes('info') %}
+                <div class="text-center bg-primary py-2">{{ message }}</div>
+            {% endfor %}
+
             {% for trick in tricks %}
                 <div class="card mb-3 col-11 col-md-3 col-lg-2 mx-md-2 p-0">
                     <img src="{{ asset('img/trick/' ~ trick.image) }}" class="card-img-top" alt="...">
@@ -32,7 +36,9 @@
             {% endfor %}
         </section>
         <div id="tools">
-            <a href="{{ path('trick_new') }}">Create new</a>
+            {% if app.user %}
+                <a href="{{ path('trick_new') }}">Create new</a>
+            {% endif %}
             {% if rang < nbPagesMax %}
                 <a id="load_more" href="{{ path('trick_more', {'rang': rang }) }}">
                     <button class="btn btn-primary d-flex btn-spinner" type="button" >

@@ -10,12 +10,12 @@
             <div class="card-img-overlay d-flex flex-column pointer-events-none">
                 <h1 class="card-title text-center">{{ trick.name }}</h1>
             </div>
-            
-            <div class="bg-dark ml-auto border-secondary rounded flex-row py-2 px-3 absolute">
-                <a href="{{ path('trick_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt pr-3"></i></a>
-                <a href="{{ path('trick_delete', {'id': trick.id}) }}"><i class="fas fa-trash-alt"></i></a>
-            </div>
-            
+            {% if app.user %}
+                <div class="bg-dark ml-auto border-secondary rounded flex-row py-2 px-3 absolute">
+                    <a href="{{ path('trick_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt pr-3"></i></a>
+                    <a href="{{ path('trick_delete', {'id': trick.id}) }}"><i class="fas fa-trash-alt"></i></a>
+                </div>
+            {% endif %}
             <div class="card-body">
 
                 {{ include('trick/_gallery.html.twig') }}
