@@ -38,11 +38,6 @@ class Trick
     private $image;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $video;
-
-    /**
      * @ORM\ManyToOne(targetEntity=FigType::class, inversedBy="tricks")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -117,18 +112,6 @@ class Trick
     public function setImage(string $image): self
     {
         $this->image = $image;
-
-        return $this;
-    }
-
-    public function getVideo(): ?string
-    {
-        return $this->video;
-    }
-
-    public function setVideo(?string $video): self
-    {
-        $this->video = $video;
 
         return $this;
     }

@@ -8,12 +8,17 @@
         {% endfor %}
     {% endif %}
     
-    {# {% if trick.video %}
-        <div class="card d-flex flex-row">
-            <iframe width="560" height="315" src="{{ trick.video }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <video src="{{ trick.video }}" width="320" height="240" controls>
-                Your browser does not support the video tag.
-            </video> 
-        </div>
-    {% endif %} #}
+    {% if trick.videoTricks %}
+        {% for video in trick.videoTricks %}
+
+            <div class="card mb-3 col-11 col-md-3 col-lg-2 mx-md-2">
+                <iframe width="128" height="90" src="{{ video.src }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                
+                <iframe width="128" height="90" src="https://www.youtube.com/embed/GS9MMT_bNn8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                
+                
+                {#<video src="https://www.youtube.com/embed/GS9MMT_bNn8" width="128" height="90" controls>
+                    Your browser does not support the video tag.
+                </video> #}
+            </div>
+        {% endfor %}
+    {% endif %}
 </div>
