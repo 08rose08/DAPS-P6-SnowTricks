@@ -6,6 +6,7 @@ use App\Entity\Trick;
 use App\Entity\Comment;
 use App\Form\Trick1Type;
 use App\Entity\ImageTrick;
+use App\Entity\VideoTrick;
 use App\Repository\TrickRepository;
 use App\Controller\CommentController;
 use App\Repository\CommentRepository;
@@ -84,6 +85,18 @@ class TrickController extends AbstractController
         }
     }
 
+    private function addVideo($trick, $entityManager, $videoSrc)
+    {
+        if($videoSrc)
+        {
+            $videoTrick = new VideoTrick();
+            $videoTrick->setSrc($videoSrc)
+                    ->setTrick($trick);
+            $entityManager->persist($videoTrick);
+            $entityManager->flush();
+        }
+    }
+
     /**
      * @Route("trick/new", name="trick_new", methods={"GET","POST"})
      * @Route("trick/{id}/edit", name="trick_edit", methods={"GET","POST"})
@@ -136,6 +149,11 @@ class TrickController extends AbstractController
             $images = [$form->get('image1')->getData(), $form->get('image2')->getData(), $form->get('image3')->getData()];
             foreach($images as $imageFile){
                 $this->addImg($trick, $request, $entityManager, $slugger, $imageFile);
+            }
+
+            $videos = [$form->get('video1')->getData()];
+            foreach($videos as $videoSrc){
+                $this->addVideo($trick, $entityManager, $videoSrc);
             }
 
             $this->addFlash('info', 'Trick ajouté!');
