@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use App\Repository\ImageTrickRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ImageTrickRepository;
 
 /**
  * @ORM\Entity(repositoryClass=ImageTrickRepository::class)
