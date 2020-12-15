@@ -85,13 +85,12 @@ class TrickController extends AbstractController
         }
     }
 
-    private function addVideo($trick, $entityManager, $videoSrc)
+    private function addVideo($trick, $entityManager, $videoTrick)
     {
-        if($videoSrc)
+        if($videoTrick->getSrc())
         {
-            $videoTrick = new VideoTrick();
-            $videoTrick->setSrc($videoSrc)
-                    ->setTrick($trick);
+            $videoTrick->setTrick($trick);
+    
             $entityManager->persist($videoTrick);
             $entityManager->flush();
         }
@@ -151,9 +150,9 @@ class TrickController extends AbstractController
                 $this->addImg($trick, $request, $entityManager, $slugger, $imageFile);
             }
 
-            $videos = [$form->get('video1')->getData()];
-            foreach($videos as $videoSrc){
-                $this->addVideo($trick, $entityManager, $videoSrc);
+            $videos = $form->get('videos')->getData();
+            foreach($videos as $video){
+                $this->addVideo($trick, $entityManager, $video);
             }
 
             $this->addFlash('info', 'Trick ajouté!');

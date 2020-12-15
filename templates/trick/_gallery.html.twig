@@ -1,4 +1,8 @@
 <div class="d-flex flex-row mb-3">
+    <div class="card mb-3 col-11 col-md-3 col-lg-2 mx-md-2 p-0">
+        <img src="{{ asset('img/trick/' ~ trick.image) }}" alt="" class="card-img">
+    </div>
+
     {% if trick.imageTricks %}
         {% for image in trick.imageTricks %}
             <div class="card mb-3 col-11 col-md-3 col-lg-2 mx-md-2 p-0">
@@ -11,10 +15,8 @@
     {% if trick.videoTricks %}
         {% for video in trick.videoTricks %}
 
-            <div class="card mb-3 col-11 col-md-3 col-lg-2 mx-md-2 p-0">
-                <iframe width="128" height="90" src="{{ video.src }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                
-                <iframe width="128" height="90" src="https://www.youtube.com/embed/GS9MMT_bNn8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                
-                
+            <div class="card mb-3 col-11 col-md-3 col-lg-2 mx-md-2 p-0 embed-responsive">
+                <iframe class="embed-responsive-item" width="auto" height="auto" src="{{ video.src }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                                
                 {#<video src="https://www.youtube.com/embed/GS9MMT_bNn8" width="128" height="90" controls>
                     Your browser does not support the video tag.
                 </video> #}

@@ -7,7 +7,24 @@
     {{ form_row(formTrick.image) }}
     <hr class="in-trick">
     <p>Illustrations optionnelles :</p>
-    {{ form_row(formTrick.video1, {'attr': {'placeholder': "URL"}}) }}
+    
+    <ul id="video-fields-list"
+        data-prototype="{{ form_widget(formTrick.videos.vars.prototype)|e }}"
+        data-widget-tags="{{ '<li></li>'|e }}"
+        data-widget-counter="{{ formTrick.videos|length }}">
+
+        {% for videoField in formTrick.videos %}
+            <li>
+                {#{{ form_errors(emailField) }}#}
+                {{ form_widget(videoField) }}
+            </li>
+        {% endfor %}
+
+    </ul>
+
+    <button type="button" class="add-another-collection-widget btn btn-primary" data-list-selector="#video-fields-list">Ajouter une video</button>
+
+
     {{ form_row(formTrick.image1) }}
     {{ form_row(formTrick.image2) }}
     {{ form_row(formTrick.image3) }}

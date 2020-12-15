@@ -1,14 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Trick{% endblock %}
+{% block title %}Nouveau Trick{% endblock %}
 
 {% block body %}
-    <section class="container">
-        <h1>The Trick</h1>
+    <section class="container mt-3">
+        <h1>Création d'un Trick</h1>
         
         {{ include('trick/_form.html.twig') }}
     </section>
 
 
     <a href="{{ path('trick_index') }}">back to list</a>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/custom-file-input.js') }}"></script>
+    <script src="{{ asset('js/add-collection-widget.js') }}"></script>
 {% endblock %}

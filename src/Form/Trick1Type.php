@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Trick;
 use App\Entity\FigType;
+use App\Form\VideoTrickType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -12,6 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class Trick1Type extends AbstractType
 {
@@ -39,11 +41,21 @@ class Trick1Type extends AbstractType
                         'mimeTypesMessage' => 'Le fichier n\'est pas valide',                    ])
                 ]
             ])
-            ->add('video1', UrlType::class, [
+            /*->add('video1', UrlType::class, [
                 'label' => 'Video du trick',
                 'mapped' => false,
                 'required' => false,
+            ])*/
+
+            ->add('videos', CollectionType::class, [
+                'entry_type' => VideoTrickType::class,
+                // en ajouter autant qu'on veut
+                'allow_add' => true,
+                'allow_delete' => true,
+                'required' => false,
+                'mapped'=> false,
             ])
+
             //->add('createdAt')
             //->add('editAt')
             
