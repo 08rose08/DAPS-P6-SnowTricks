@@ -121,25 +121,25 @@ class TrickController extends AbstractController
             $entityManager->flush();
 
             
-            $imageFile = $form->get('image')->getData();
-            if($imageFile)
+            $mainImageFile = $form->get('image')->getData();
+            if($mainImageFile)
             {
-                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $originalMainImageFilename = pathinfo($mainImageFile->getClientOriginalName(), PATHINFO_FILENAME);
             
-                $safeFilename = $slugger->slug($trick->getId());
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+                $safeMainImageFilename = $slugger->slug($trick->getId());
+                $finalMainImageFilename = $safeMainImageFilename.'-'.uniqid().'.'.$mainImageFile->guessExtension();
         
                 try {
-                    $imageFile->move(
+                    $mainImageFile->move(
                         $this->getParameter('trick_directory'),
-                        $newFilename
+                        $finalMainImageFilename
                     );
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
-                $trick->setImage($newFilename);
+                $trick->setImage($finalMainImageFilename);
             }
-            elseif(!$imageFile && !$trick->getImage()) 
+            elseif(!$mainImageFile && !$trick->getImage()) 
             {
                 $trick->setImage('default.jpg');
             }
