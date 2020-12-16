@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ImageTrickRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ImageTrickRepository::class)
@@ -27,6 +28,11 @@ class ImageTrick
      * @ORM\JoinColumn(nullable=false)
      */
     private $Trick;
+
+    /**
+     * @Assert\Image(mimeTypes = {"image/jpeg", "image/jpg", "image/png"}, mimeTypesMessage = "Format invalide")
+     */
+    private $file;
 
     public function getId(): ?int
     {
@@ -55,5 +61,17 @@ class ImageTrick
         $this->Trick = $Trick;
 
         return $this;
+    }
+
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile($file)
+    {
+        $this->file = $file;
+
+        return $file;
     }
 }
