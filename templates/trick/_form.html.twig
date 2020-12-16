@@ -25,9 +25,22 @@
     <button type="button" class="add-another-collection-widget btn btn-primary" data-list-selector="#video-fields-list">Ajouter une video</button>
 
 
-    {{ form_row(formTrick.image1) }}
-    {{ form_row(formTrick.image2) }}
-    {{ form_row(formTrick.image3) }}
+    <ul id="image-fields-list"
+        data-prototype="{{ form_widget(formTrick.imageTricks.vars.prototype)|e }}"
+        data-widget-tags="{{ '<li></li>'|e }}"
+        data-widget-counter="{{ formTrick.imageTricks|length }}">
+
+        {% for imageField in formTrick.imageTricks %}
+            <li>
+                {#{{ form_errors(emailField) }}#}
+                {{ form_widget(imageField) }}
+            </li>
+        {% endfor %}
+
+    </ul>
+
+    <button type="button" class="add-another-collection-widget btn btn-primary" data-list-selector="#image-fields-list">Ajouter une image</button>
+    <hr class="in-trick">
 
 
     <button class="btn btn-primary">{{ button_label|default('Save') }}</button>

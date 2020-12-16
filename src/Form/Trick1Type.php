@@ -59,7 +59,7 @@ class Trick1Type extends AbstractType
             //->add('createdAt')
             //->add('editAt')
             
-            ->add('image1', FileType::class, [
+            /*->add('image1', FileType::class, [
                 'label' => 'Image du trick (.jpg)',
                 'mapped' => false,
                 'required' => false,
@@ -100,6 +100,14 @@ class Trick1Type extends AbstractType
                         ],
                         'mimeTypesMessage' => 'Le fichier n\'est pas valide',                    ])
                 ]
+            ])*/
+            ->add('imageTricks', CollectionType::class, [
+                'entry_type' => ImageTrickType::class,
+                // en ajouter autant qu'on veut
+                'allow_add' => true,
+                'allow_delete' => true,
+                'required' => false,
+                'mapped'=> false,
             ])
             
         ;

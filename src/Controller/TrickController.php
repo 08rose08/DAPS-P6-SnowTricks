@@ -58,8 +58,10 @@ class TrickController extends AbstractController
         return $this->json(['code' => 200, 'twig' => $twig], 200);
     }
 
-    private function addImg($trick, $request, $entityManager, $slugger, $imageFile)
+    private function addImg($trick, $request, $entityManager, $slugger, $imageTrick)
     {   
+        //dd($imageTrick);
+        $imageFile = $imageTrick->getFile();
         if($imageFile)
         {
             $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -121,6 +123,7 @@ class TrickController extends AbstractController
 
             
             $mainImageFile = $form->get('image')->getData();
+            //dd($mainImageFile);
             if($mainImageFile)
             {
                 $originalMainImageFilename = pathinfo($mainImageFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -144,10 +147,14 @@ class TrickController extends AbstractController
             }
             $entityManager->persist($trick);
             $entityManager->flush();
+
+            // -------- Gallery -------
             
-            $images = [$form->get('image1')->getData(), $form->get('image2')->getData(), $form->get('image3')->getData()];
-            foreach($images as $imageFile){
-                $this->addImg($trick, $request, $entityManager, $slugger, $imageFile);
+            $images = $form->get('imageTricks')->getData();
+            //$images = $trick->getImageTricks();
+            //dd($images);
+            foreach($images as $image){
+                $this->addImg($trick, $request, $entityManager, $slugger, $image);
             }
 
             $videos = $form->get('videos')->getData();
