@@ -33,7 +33,7 @@ class TrickFixtures extends Fixture
 
             for($i = 1; $i <= 3; $i++){
                 $trick = new Trick();
-                $trick->setName("Trick n°$i")
+                $trick->setName("Trick $figTypeName n°$i")
                     ->setDescription($faker->paragraph($nbSentences = 3, $variableNbSentences = true))
                     ->setImage($faker->imageUrl($width = 800, $height = 600, 'abstract'))
                     ->setFigType($figType)
@@ -44,7 +44,7 @@ class TrickFixtures extends Fixture
 
                 
 
-                for($k = 1; $k <= mt_rand(0, 2); $k++){
+                for($k = 1; $k <= mt_rand(4, 15); $k++){
                     $comment = new Comment();
     
                     /*$days = (new \DateTime())->diff($article->getCreatedAt())->days;
