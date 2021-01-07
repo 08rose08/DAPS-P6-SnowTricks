@@ -15,13 +15,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Controller\MailerController;
+use Symfony\Component\Mailer\MailerInterface;
+
+
 
 class SecurityController extends AbstractController
 {
     /**
      * @Route("/signup", name="app_signup")
      */
-    public function signup(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    public function signup(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder, MailerInterface $mailer)
     {
         $user = new User();
 
@@ -36,10 +40,15 @@ class SecurityController extends AbstractController
             
             $manager->persist($user);
             $manager->flush();
+
+            $mailerController = new MailerController();
+            $mailerController->sendEmail($user, $mailer);
+
+        }else{
+            return $this->render('security/signup.html.twig', [
+                'form' => $form->createView()
+                ]);
         }
-        return $this->render('security/signup.html.twig', [
-            'form' => $form->createView()
-            ]);
             
             /*
             
