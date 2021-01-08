@@ -52,7 +52,8 @@ class MailerController extends AbstractController
             ->subject('Confirmation de création d\'un compte Snowtricks')
             ->text('Sending emails is fun again!')
             ->html('<p>Salut '.$user->getUsername().',</p>
-            <p>clique sur cette URL pour activer ton compte Snowtricks : blablabla<br>
+            <p>clique sur ce lien pour activer ton compte Snowtricks : 
+            <a href="http://localhost:8000/user/'.$user->getId().'/validate?confirm='.$user->getToken().'">localhost:8000/user/'.$user->getId().'/validate?confirm='.$user->getToken().'</a><br>
              si le lien ne fonctionne pas, copie-colle l\'URL dans ton navigateur</p>
              <p>Bienvenue dans la communauté Snowtricks,<br>
              L\'équipe Snowtricks</p>');
