@@ -175,8 +175,32 @@ class TrickController extends AbstractController
     /**
      * @Route("trick/{id}", name="trick_show", methods={"GET", "POST"})
      */
+    /*
     public function show(Comment $comment = null, Trick $trick, Request $request, CommentController $commentController, EntityManagerInterface $entityManager, CommentRepository $commentRepository): Response
     {   
+        
+        $commentForm = $commentController->new($comment, $trick, $request, $entityManager);
+
+        $offset = max(0, $request->query->getInt('offset', 0));
+        //var_dump($offset);
+        $paginator = $commentRepository->findByPaginator($trick, $offset);
+
+        $previous = $offset - CommentRepository::PAGINATOR_PER_PAGE;
+        //var_dump($previous);
+        $next = min(count($paginator), $offset + CommentRepository::PAGINATOR_PER_PAGE);
+        //var_dump($next);
+
+        return $this->render('trick/show.html.twig', [
+            'trick' => $trick,
+            'commentForm' => $commentForm,
+            'comments' => $paginator,
+            'previous' => $offset - CommentRepository::PAGINATOR_PER_PAGE,
+            'next' => min(count($paginator), $offset + CommentRepository::PAGINATOR_PER_PAGE),
+        ]);
+    }*/
+    public function show(Trick $trick, Request $request, CommentController $commentController, EntityManagerInterface $entityManager, CommentRepository $commentRepository): Response
+    {   
+        $comment = null;
         $commentForm = $commentController->new($comment, $trick, $request, $entityManager);
 
         $offset = max(0, $request->query->getInt('offset', 0));

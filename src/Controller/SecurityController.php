@@ -38,24 +38,44 @@ class SecurityController extends AbstractController
             $user->setPassword($hash);
             $user->setImage('default.jpg');
             
+            $token = $user->getUsername() . '-' . uniqid();
+            $user->setToken($token);
+            $user->setIsValid(0);
+
             $manager->persist($user);
             $manager->flush();
 
             $mailerController = new MailerController();
             $mailerController->sendEmail($user, $mailer);
+            return $this->render('security/sendmail.html.twig');
 
         }else{
             return $this->render('security/signup.html.twig', [
                 'form' => $form->createView()
                 ]);
+        } 
+
+        //return $this->redirectToRoute('app_login');
+        
+    }
+
+    /**
+     * @Route("/user/{id}/validate", name="validate_account");
+     */
+    public function validateAccount(User $user, Request $request, EntityManagerInterface $entityManager)
+    {
+        //trouver l'utilisateur ? puis comparer le token ?
+        //trouver juste le token et isValid=true ? findByToken ?
+        $mailToken = $request->query->get('confirm');
+        //var_dump($token);
+        //editer l'user via le repo ?
+        $userToken = $user->getToken();
+        if($mailToken == $userToken){
+            $user->setIsValid(true);
+            $entityManager->persist($user);
+            $entityManager->flush();
         }
-            
-            /*
-            
-
-
         return $this->redirectToRoute('app_login');
-        */
     }
     
     /**
