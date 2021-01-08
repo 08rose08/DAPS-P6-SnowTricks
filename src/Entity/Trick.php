@@ -10,8 +10,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
- * 
- */
+ * @UniqueEntity(
+ *  fields={"name"},
+ *  message="name already exists !"
+ * ) 
+ 
+ * */
 class Trick
 {
     /**
