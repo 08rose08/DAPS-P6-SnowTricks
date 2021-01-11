@@ -64,5 +64,28 @@ class MailerController extends AbstractController
         //return $this->redirectToRoute('trick_index'); // fonctionne via l'url /email mais pas par le bouton create account
         // ...
     }
-    
+
+    /**
+     * @Route("/emailPass", name="email_pass")
+     */
+    public function sendPass($user, $mailer)
+    {
+        $email = (new Email())
+            ->from('hello@example.com')       
+            ->to($user->getEmail())
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject('Changement de mot de passe Snowtricks')
+            ->text('Sending emails is fun again!')
+            ->html('<p>Salut '.$user->getUsername().',</p>
+            <p>clique sur ce lien pour définir un nouveau mot de passe Snowtricks : 
+            <a href="http://localhost:8000/user/'.$user->getId().'/change?confirm='.$user->getToken().'">localhost:8000/user/'.$user->getId().'/change?confirm='.$user->getToken().'</a><br>
+             si le lien ne fonctionne pas, copie-colle l\'URL dans ton navigateur</p>
+             <p>Bon retour dans la communauté Snowtricks,<br>
+             L\'équipe Snowtricks</p>');
+
+        $mailer->send($email);
+    }
 }
