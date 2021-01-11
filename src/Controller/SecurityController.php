@@ -118,20 +118,6 @@ class SecurityController extends AbstractController
         return $this->render('security/username.html.twig', ['form' => $form->createView()]);
         
     }
-
-    /**
-     * @Route("user/{id}/check", name="check_user")
-     */
-    public function checkUser(User $user, Request $request, EntityManagerInterface $entityManager)
-    {
-        $mailToken = $request->query->get('confirm');
-        $userToken = $user->getToken();
-
-        if($mailToken == $userToken){
-            return $this->redirectToRoute('change_pass', ['id' => $user->getId()]);
-        }
-        return $this->redirectToRoute('app_login');
-    }
     
     /**
      * @Route("/user/{id}/change", name="change_pass");
