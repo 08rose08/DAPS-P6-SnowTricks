@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau mot de passe!{% endblock %}
+
+{% block body %}
+<form method="post" class="container d-flex flex-column align-items-center my-5 py-5">
+
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% else %}
+
+
+    {{ form_start(form, {'attr': {'class': "container d-flex flex-column align-items-center my-5 py-5"}}) }}
+    {#{% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}#}
+        <h1 class="h3 mb-3 font-weight-normal">Mot de passe oublié ?</h1>
+        <div class="card p-5 d-flex flex-column align-items-center">
+            {{ form_row(form.password, {'attr': {'class': "mb-2"}}) }}
+            <button class="btn btn-lg btn-primary m-auto" type="submit">
+                Valider le nouveau mot de passe
+            </button>
+        </div>
+    {{ form_end(form) }}
+
+
+        
+    {% endif %}
+
+</form>
+{% endblock %}

@@ -5,6 +5,11 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Form\SignupType;
+use App\Form\UsernameType;
+use App\Form\PassType;
+
+use App\Repository\UserRepository;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -72,12 +77,92 @@ class SecurityController extends AbstractController
         $userToken = $user->getToken();
         if($mailToken == $userToken){
             $user->setIsValid(true);
+            $user->setToken('');
             $entityManager->persist($user);
             $entityManager->flush();
         }
         return $this->redirectToRoute('app_login');
     }
+
+    /**
+     * @Route("/user/reset", name="want_reset")
+     */
+    public function wantResetPass(Request $request, MailerInterface $mailer, UserRepository $userRepository, EntityManagerInterface $manager)
+    {
+        $form = $this->createForm(UsernameType::class);
+        
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $username = $form->get('username')->getData();
+            $user = $userRepository->findOneBy(['username' => $username]);
+
+            if(!$user){
+                $this->addFlash('error', "Ce nom d\'utilisateur n\'existe pas");
+
+            }else{
+              $token = $user->getUsername() . '-' . uniqid();
+                $user->setToken($token);
     
+                $manager->persist($user);
+                $manager->flush();
+
+                $mailerController = new MailerController();
+                $mailerController->sendPass($user, $mailer);
+
+                $this->addFlash('ok', "Un email de réinitialisation du mot de passe a été envoyé à votre adresse mail.");
+            
+            }
+        }
+        
+        return $this->render('security/username.html.twig', ['form' => $form->createView()]);
+        
+    }
+
+    /**
+     * @Route("user/{id}/check", name="check_user")
+     */
+    public function checkUser(User $user, Request $request, EntityManagerInterface $entityManager)
+    {
+        $mailToken = $request->query->get('confirm');
+        $userToken = $user->getToken();
+
+        if($mailToken == $userToken){
+            return $this->redirectToRoute('change_pass', ['id' => $user->getId()]);
+        }
+        return $this->redirectToRoute('app_login');
+    }
+    
+    /**
+     * @Route("/user/{id}/change", name="change_pass");
+     */
+    public function changePass(User $user, Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $encoder)
+    {
+        $form = $this->createForm(PassType::class);
+        
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $mailToken = $request->query->get('confirm');
+            $userToken = $user->getToken();
+
+            if($mailToken == $userToken){
+                $password = $form->get('password')->getData();
+                $hash = $encoder->encodePassword($user, $password);
+                $user->setPassword($hash);
+                $user->setToken('');
+    
+                $entityManager->persist($user);
+                $entityManager->flush();
+    
+                $this->addFlash('ok', "Mot de passe réinitialisé !");
+                return $this->redirectToRoute('app_login');
+            }
+        }
+        return $this->render('security/pass.html.twig', ['form' => $form->createView()]);
+
+    }
+
     /**
      * @Route("/login", name="app_login")
      */
