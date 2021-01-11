@@ -79,7 +79,13 @@ class AppAuthAuthenticator extends AbstractFormLoginAuthenticator implements Pas
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        $passwordEncoder = $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        
+        if(!$passwordEncoder){
+            throw new CustomUserMessageAuthenticationException('Identifiants invalides');
+        }
+
+        return $passwordEncoder;
     }
 
     /**
