@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/comment")
@@ -31,6 +32,7 @@ class CommentController extends AbstractController
 
     /**
      * @Route("/new", name="comment_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_USER")
      */
     public function new(Comment $comment = null, Trick $trick, Request $request, EntityManagerInterface $entityManager)//: Response
     {
@@ -87,8 +89,9 @@ class CommentController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="comment_edit", methods={"GET","POST"})
+    * @IsGranted("ROLE_USER")
      */
-    public function edit(Request $request, Comment $comment): Response
+    /*public function edit(Request $request, Comment $comment): Response
     {
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
@@ -103,12 +106,13 @@ class CommentController extends AbstractController
             'comment' => $comment,
             'form' => $form->createView(),
         ]);
-    }
+    }*/
 
     /**
      * @Route("/{id}", name="comment_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_USER")
      */
-    public function delete(Request $request, Comment $comment): Response
+    /*public function delete(Request $request, Comment $comment): Response
     {
         if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -117,5 +121,5 @@ class CommentController extends AbstractController
         }
 
         return $this->redirectToRoute('comment_index');
-    }
+    }*/
 }
