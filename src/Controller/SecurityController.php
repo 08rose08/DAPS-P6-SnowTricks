@@ -22,6 +22,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Controller\MailerController;
 use Symfony\Component\Mailer\MailerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
 
@@ -46,6 +47,8 @@ class SecurityController extends AbstractController
             $token = $user->getUsername() . '-' . uniqid();
             $user->setToken($token);
             $user->setIsValid(0);
+
+            $user->setRoles(['ROLE_USER']);
 
             $manager->persist($user);
             $manager->flush();
@@ -178,6 +181,7 @@ class SecurityController extends AbstractController
 
     /**
      * @Route ("/user/{id}", name="show_user", methods={"GET", "POST"})
+     * @IsGranted("ROLE_USER")
      */
     public function show(User $user, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {   

@@ -18,6 +18,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class TrickController extends AbstractController
 {
@@ -101,6 +102,7 @@ class TrickController extends AbstractController
     /**
      * @Route("trick/new", name="trick_new", methods={"GET","POST"})
      * @Route("trick/{id}/edit", name="trick_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_USER")
      */
     public function new(Trick $trick = null, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
@@ -248,6 +250,7 @@ class TrickController extends AbstractController
 
     ///**
     // * @Route("trick/{id}/edit", name="trick_edit", methods={"GET","POST"})
+    //* @IsGranted("ROLE_USER")
     // */
     /*public function edit(Request $request, Trick $trick): Response
     {
@@ -268,6 +271,7 @@ class TrickController extends AbstractController
 
     /**
      * @Route("trick/{id}", name="trick_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_USER")
      */
     public function delete(Request $request, Trick $trick): Response
     {
