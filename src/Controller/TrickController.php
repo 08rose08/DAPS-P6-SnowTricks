@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Filesystem\Filesystem;
 
 class TrickController extends AbstractController
 {
@@ -270,11 +271,11 @@ class TrickController extends AbstractController
     }*/
 
     /**
-     * @Route("trick/{id}", name="trick_delete", methods={"DELETE"})
+     * @Route("trick/{id}/delete", name="trick_delete")
      * @IsGranted("ROLE_USER")
      */
-    public function delete(Request $request, Trick $trick): Response
-    {
+    public function delete(Request $request, Trick $trick, EntityManagerInterface $entityManager, Filesystem $filesystem): Response
+    /*{
         if ($this->isCsrfTokenValid('delete'.$trick->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($trick);
@@ -282,5 +283,29 @@ class TrickController extends AbstractController
         }
 
         return $this->redirectToRoute('trick_index');
+    }*/
+    {
+        if(!$trick){
+            //message flash ? en redirigeant vers trick_index?
+            return $this->redirectToRoute('trick_index');
+        }else{
+            // 1. supprimer les fichiers img commencant par id_
+            $mainImage = $trick->getImage();
+            $images = $trick->getImageTricks();
+            
+            foreach($images as $image){
+                $path = $this->getParameter('trick_directory').'/'.$image->getSrc();
+                $filesystem->remove($path);
+            }
+            if($mainImage != 'default.jpg'){
+                $path = $this->getParameter('trick_directory').'/'.$mainImage;
+                $filesystem->remove($path);
+            }
+            // 2. supprimer le trick
+            $entityManager->remove($trick);
+            $entityManager->flush();
+            //message flash ? ok
+            return $this->redirectToRoute('trick_index');
+        }
     }
 }
