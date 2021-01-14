@@ -60,12 +60,10 @@ class TrickController extends AbstractController
         return $this->json(['code' => 200, 'twig' => $twig], 200);
     }
 
-    private function addImg($trick, $request, $entityManager, $slugger, $imageTrick)
+    private function addImg($trick, $request, $entityManager, $slugger, $imageFile)
     {   
         //dd($imageTrick);
-        $imageFile = $imageTrick->getFile();
-        if($imageFile)
-        {
+        
             $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
             
             $safeFilename = $slugger->slug($trick->getId());
@@ -79,14 +77,9 @@ class TrickController extends AbstractController
             } catch (FileException $e) {
                 // ... handle exception if something happens during file upload
             }
+            return $newFilename;
             
-            $imageTrick = new ImageTrick();
-            $imageTrick->setSrc($newFilename)
-                    ->setTrick($trick);
-            //$trick->addImageTrick($imageTrick);
-            $entityManager->persist($imageTrick);
-            $entityManager->flush();
-        }
+        
     }
 
     private function addVideo($trick, $entityManager, $videoTrick)
@@ -124,24 +117,12 @@ class TrickController extends AbstractController
             $entityManager->persist($trick);
             $entityManager->flush();
 
-            
+            //Add mainImage
             $mainImageFile = $form->get('image')->getData();
             //dd($mainImageFile);
             if($mainImageFile)
             {
-                $originalMainImageFilename = pathinfo($mainImageFile->getClientOriginalName(), PATHINFO_FILENAME);
-            
-                $safeMainImageFilename = $slugger->slug($trick->getId());
-                $finalMainImageFilename = $safeMainImageFilename.'-'.uniqid().'.'.$mainImageFile->guessExtension();
-        
-                try {
-                    $mainImageFile->move(
-                        $this->getParameter('trick_directory'),
-                        $finalMainImageFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
+                $finalMainImageFilename = $this->addImg($trick, $request, $entityManager, $slugger, $mainImageFile);
                 $trick->setImage($finalMainImageFilename);
             }
             elseif(!$mainImageFile && !$trick->getImage()) 
@@ -157,7 +138,19 @@ class TrickController extends AbstractController
             //$images = $trick->getImageTricks();
             //dd($images);
             foreach($images as $image){
-                $this->addImg($trick, $request, $entityManager, $slugger, $image);
+                $imageFile = $image->getFile();
+
+                if($imageFile)
+                {
+                    $newFilename = $this->addImg($trick, $request, $entityManager, $slugger, $imageFile);
+                    
+                    $imageTrick = new ImageTrick();
+                    $imageTrick->setSrc($newFilename)
+                            ->setTrick($trick);
+                    //$trick->addImageTrick($imageTrick);
+                    $entityManager->persist($imageTrick);
+                    $entityManager->flush();
+                }
             }
 
             $videos = $form->get('videos')->getData();
@@ -165,7 +158,7 @@ class TrickController extends AbstractController
                 $this->addVideo($trick, $entityManager, $video);
             }
 
-            $this->addFlash('info', 'Trick ajouté!');
+            $this->addFlash('info', 'Trick ajouté !');
 
             return $this->redirectToRoute('trick_index');
         }
