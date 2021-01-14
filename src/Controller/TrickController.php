@@ -60,7 +60,7 @@ class TrickController extends AbstractController
         return $this->json(['code' => 200, 'twig' => $twig], 200);
     }
 
-    private function addImg($trick, $request, $entityManager, $slugger, $imageFile)
+    private function addImg($trick, $request, $slugger, $imageFile)
     {   
         //dd($imageTrick);
         
@@ -78,8 +78,7 @@ class TrickController extends AbstractController
                 // ... handle exception if something happens during file upload
             }
             return $newFilename;
-            
-        
+              
     }
 
     private function addVideo($trick, $entityManager, $videoTrick)
@@ -122,7 +121,7 @@ class TrickController extends AbstractController
             //dd($mainImageFile);
             if($mainImageFile)
             {
-                $finalMainImageFilename = $this->addImg($trick, $request, $entityManager, $slugger, $mainImageFile);
+                $finalMainImageFilename = $this->addImg($trick, $request, $slugger, $mainImageFile);
                 $trick->setImage($finalMainImageFilename);
             }
             elseif(!$mainImageFile && !$trick->getImage()) 
@@ -142,7 +141,7 @@ class TrickController extends AbstractController
 
                 if($imageFile)
                 {
-                    $newFilename = $this->addImg($trick, $request, $entityManager, $slugger, $imageFile);
+                    $newFilename = $this->addImg($trick, $request, $slugger, $imageFile);
                     
                     $imageTrick = new ImageTrick();
                     $imageTrick->setSrc($newFilename)
