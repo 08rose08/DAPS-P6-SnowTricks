@@ -180,11 +180,14 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route ("/user/{id}", name="show_user", methods={"GET", "POST"})
+     * @Route ("/profil", name="show_user", methods={"GET", "POST"})
      * @IsGranted("ROLE_USER")
      */
-    public function show(User $user, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function show(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {   
+                //ici vérifier que c'est le bon user 
+        $user = $this->getUser();
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
