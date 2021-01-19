@@ -55,7 +55,11 @@ class SecurityController extends AbstractController
 
             $mailerController = new MailerController();
             $mailerController->sendEmail($user, $mailer);
-            return $this->render('security/sendmail.html.twig');
+
+            $this->addFlash('ok', 'Un email d\'activation de compte a été envoyé à votre adresse mail.');
+
+            return $this->redirectToRoute('app_login');
+            //return $this->render('security/sendmail.html.twig');
 
         }else{
             return $this->render('security/signup.html.twig', [
