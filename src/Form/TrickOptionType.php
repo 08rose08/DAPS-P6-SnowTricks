@@ -15,32 +15,11 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class Trick1Type extends AbstractType
+class TrickOptionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('figType', EntityType::class, [
-                'class' => FigType::class,
-                'choice_label' => 'name',
-                'label' => 'Type du trick',
-            ])
-            ->add('description')
-            ->add('image', FileType::class, [
-                'label' => 'Image principale du trick (.jpg)',
-                'mapped' => false,
-                'required' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/png',
-                        ],
-                        'mimeTypesMessage' => 'Le fichier n\'est pas valide',                    ])
-                ]
-            ])
             ->add('videos', CollectionType::class, [
                 'entry_type' => VideoTrickType::class,
                 // en ajouter autant qu'on veut
@@ -63,7 +42,7 @@ class Trick1Type extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Trick::class,
+            //'data_class' => Trick::class,
         ]);
     }
 }

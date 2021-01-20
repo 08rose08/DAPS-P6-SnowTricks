@@ -3,11 +3,24 @@
 {% block title %}Edit Trick{% endblock %}
 
 {% block body %}
-    <h1>Edit Trick</h1>
+    <section class="container my-3">
+        <h1>Edit Trick</h1>
 
-    {{ include('trick/_form.html.twig', {'button_label': 'Update'}) }}
+        {{ include('trick/_formMain.html.twig', {'button_label': 'Update'}) }}
+        <hr class="in-trick">
+
+        {{ include('trick/_gallery_form.html.twig', {'button_label': 'Update'}) }}
+        <hr class="in-trick">
+
+        {{ include('trick/_delete_form.html.twig') }}
+    </section>
+
 
     <a href="{{ path('trick_index') }}">back to list</a>
 
-    {{ include('trick/_delete_form.html.twig') }}
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('js/add-collection-widget.js') }}"></script>
+    <script src="{{ asset('js/custom-file-input.js') }}"></script>
+
 {% endblock %}
