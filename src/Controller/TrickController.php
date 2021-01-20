@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Trick;
 use App\Entity\Comment;
 use App\Form\Trick1Type;
+use App\Form\TrickMainType;
+use App\Form\TrickOptionType;
 use App\Entity\ImageTrick;
 use App\Entity\VideoTrick;
 use App\Repository\TrickRepository;
@@ -216,41 +218,65 @@ class TrickController extends AbstractController
 
     }
 
-    ///**
-    // * @Route("trick/{id}/edit", name="trick_edit", methods={"GET","POST"})
-    //* @IsGranted("ROLE_USER")
-    // */
-    /*public function edit(Request $request, Trick $trick): Response
+    /**
+     * @Route("trick/{id}/edit", name="trick_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function edit(Request $request, Trick $trick, SluggerInterface $slugger, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(Trick1Type::class, $trick);
-        $form->handleRequest($request);
+        $formTrick = $this->createForm(TrickMainType::class, $trick);
+        $formTrick->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($formTrick->isSubmitted() && $formTrick->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
+        }
+
+        $formOption = $this->createForm(TrickOptionType::class);
+        $formOption->handleRequest($request);
+        if ($formOption->isSubmitted() && $formOption->isValid()) {
+            //$this->getDoctrine()->getManager()->flush();
+
+            $images = $formOption->get('imageTricks')->getData();
+            //$images = $trick->getImageTricks();
+            //dd($images);
+            foreach($images as $image){
+                $imageFile = $image->getFile();
+
+                if($imageFile)
+                {
+                    $newFilename = $this->addImg($trick, $request, $slugger, $imageFile);
+                    
+                    $imageTrick = new ImageTrick();
+                    $imageTrick->setSrc($newFilename)
+                            ->setTrick($trick);
+                    //$trick->addImageTrick($imageTrick);
+                    $entityManager->persist($imageTrick);
+                    $entityManager->flush();
+                }
+            }
+
+            $videos = $formOption->get('videos')->getData();
+            foreach($videos as $video){
+                $this->addVideo($trick, $entityManager, $video);
+            }
 
             return $this->redirectToRoute('trick_index');
         }
 
         return $this->render('trick/edit.html.twig', [
             'trick' => $trick,
-            'formTrick' => $form->createView(),
+            'formTrick' => $formTrick->createView(),
+            'formOption' => $formOption->createView(),
         ]);
-    }*/
+    }
 
     /**
      * @Route("trick/{id}/delete", name="trick_delete")
      * @IsGranted("ROLE_USER")
      */
     public function delete(Request $request, Trick $trick, EntityManagerInterface $entityManager, Filesystem $filesystem): Response
-    /*{
-        if ($this->isCsrfTokenValid('delete'.$trick->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($trick);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('trick_index');
-    }*/
     {
         if(!$trick){
             //message flash ? en redirigeant vers trick_index?

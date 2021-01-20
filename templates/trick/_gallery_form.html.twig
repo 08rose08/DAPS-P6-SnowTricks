@@ -1,0 +1,52 @@
+
+
+<div class="d-flex flex-row mb-3 flex-wrap">
+    
+
+    {% if trick.imageTricks %}
+        {% for image in trick.imageTricks %}
+            <div class="card mb-3 col-11 col-md-3 col-lg-2 mx-md-2 p-0">
+                <img src="{{ asset('img/trick/' ~ image.src) }}" alt="" class="card-img">
+                <div class="bg-dark ml-auto border-secondary rounded flex-row py-2 px-3 absolute">
+                    {#<a href="{{ path('img_edit', {'id': image.id}) }}"><i class="fas fa-pencil-alt pr-3"></i></a>#}
+                    <a href="{{ path('imageTrick_delete', {'id': image.id}) }}"><i class="fas fa-trash-alt"></i></a>
+                </div>
+            </div>
+
+        {% endfor %}
+    {% endif %}
+    
+    {% if trick.videoTricks %}
+        {% for video in trick.videoTricks %}
+            <div class="card mb-3 col-11 col-md-3 col-lg-2 mx-md-2 p-0 embed-responsive">
+                <iframe class="embed-responsive-item" width="auto" height="auto" src="{{ video.src }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                                
+                
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card mb-3 col-11 col-md-3 col-lg-2 mx-md-2 p-0">
+        <button type="button" class="add-another-collection-widget btn btn-primary" data-list-selector="#image-fields-list">Ajouter une image</button>
+        <button type="button" class="add-another-collection-widget btn btn-primary" data-list-selector="#video-fields-list">Ajouter une video</button>
+    </div>
+
+</div>
+
+{{ form_start(formOption) }}
+
+<div class="d-flex mb-3">
+    <ul id="video-fields-list"
+        data-prototype="{{ form_widget(formOption.videos.vars.prototype)|e }}"
+        data-widget-tags="{{ '<li></li>'|e }}"
+        data-widget-counter="{{ formOption.videos|length }}">
+    </ul>
+    <ul id="image-fields-list"
+        data-prototype="{{ form_widget(formOption.imageTricks.vars.prototype)|e }}"
+        data-widget-tags="{{ '<li></li>'|e }}"
+        data-widget-counter="{{ formOption.imageTricks|length }}">
+    </ul>
+</div>
+
+<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+
+{{ form_end(formOption) }}
