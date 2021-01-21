@@ -24,7 +24,7 @@ class TrickMainType extends AbstractType
                 'label' => 'Type du trick',
             ])
             ->add('description')  
-            /*->add('image', FileType::class, [
+            ->add('image', FileType::class, [
                 'label' => 'Image principale du trick (.jpg)',
                 'mapped' => false,
                 'required' => false,
@@ -38,7 +38,7 @@ class TrickMainType extends AbstractType
                         'mimeTypesMessage' => 'Le fichier n\'est pas valide',
                     ])
                 ]
-            ])*/
+            ])
         ;
     }
 

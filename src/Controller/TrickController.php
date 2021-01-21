@@ -222,13 +222,48 @@ class TrickController extends AbstractController
      * @Route("trick/{id}/edit", name="trick_edit", methods={"GET","POST"})
      * @IsGranted("ROLE_USER")
      */
-    public function edit(Request $request, Trick $trick, SluggerInterface $slugger, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Trick $trick, SluggerInterface $slugger, EntityManagerInterface $entityManager, TrickRepository $trickRepository, Filesystem $filesystem): Response
     {
         $formTrick = $this->createForm(TrickMainType::class, $trick);
         $formTrick->handleRequest($request);
 
         if ($formTrick->isSubmitted() && $formTrick->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            //$this->getDoctrine()->getManager()->flush();
+            
+            //ici mainImg
+            $imageFile = $formTrick->get('image')->getData();
+            
+            if($imageFile)
+            {
+                $oldTrick = $trickRepository->findOneBy(['id' => $trick->getId()]);
+                $oldFileName = $oldTrick->getImage();
+                if($oldFileName != 'default.jpg'){
+                    $path = $this->getParameter('trick_directory').'/'.$oldFileName;
+                    $filesystem->remove($path);
+                }
+                
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                
+                $safeFilename = $slugger->slug($trick->getId());
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+                
+                try {
+                    $imageFile->move(
+                        $this->getParameter('trick_directory'),
+                        $newFilename
+                    );
+                    
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $trick->setImage($newFilename);
+
+                
+
+                $entityManager->persist($trick);
+                $entityManager->flush();
+            }
+            
 
             return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
         }
