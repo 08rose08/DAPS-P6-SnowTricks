@@ -16,10 +16,12 @@ class TrickFixtures extends Fixture
         $faker = \Faker\Factory::create('fr_FR');
     
         $user = new User();
-        $user->setUserame('Rose')
-            ->setEmail('rose@test.fr')
-            ->setImage($faker->imageUrl($width = 200, $height = 200, 'people'))
-            ->setPassword('$2y$13$P0tD1QEnEH4k.WasoWZ3veW7LBloElZL.OwK5v1yGfBCYrai0wja2');
+        $user->setUsername('User')
+            ->setEmail('user@test.fr')
+            ->setImage('default.jpg')
+            ->setPassword('$2y$13$P0tD1QEnEH4k.WasoWZ3veW7LBloElZL.OwK5v1yGfBCYrai0wja2') // = 'test'
+            ->setIsValid(1)
+            ->setRoles(['ROLE_USER']);
         $manager->persist($user);
         
 
@@ -35,7 +37,7 @@ class TrickFixtures extends Fixture
                 $trick = new Trick();
                 $trick->setName("Trick $figTypeName n°$i")
                     ->setDescription($faker->paragraph($nbSentences = 3, $variableNbSentences = true))
-                    ->setImage($faker->imageUrl($width = 800, $height = 600, 'abstract'))
+                    ->setImage('default.jpg')
                     ->setFigType($figType)
                     ->setCreatedAt($faker->dateTimeBetween('-6 months'));
                 $days = (new \DateTime())->diff($trick->getCreatedAt())->days;
