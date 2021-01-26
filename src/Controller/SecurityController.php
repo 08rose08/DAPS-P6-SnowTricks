@@ -87,6 +87,8 @@ class SecurityController extends AbstractController
             $user->setToken('');
             $entityManager->persist($user);
             $entityManager->flush();
+
+            $this->addFlash('ok', 'Compte activé !');
         }
         return $this->redirectToRoute('app_login');
     }
