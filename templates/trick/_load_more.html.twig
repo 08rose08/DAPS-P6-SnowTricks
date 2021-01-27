@@ -20,13 +20,13 @@
 
 <div id="tools">
     {% if app.user %}
-        <a href="{{ path('trick_new') }}">Create new</a>
+        <a href="{{ path('trick_new') }}">Créer un nouveau trick</a>
     {% endif %}
     {% if rang < nbPagesMax %}
         <a id="load_more" href="{{ path('trick_more', {'rang': rang }) }}">
             <button class="btn btn-primary d-flex btn-spinner" type="button" >
                 <div class="spinner-anim mr-2 my-auto"><i class="fas fa-spinner "></i></div>
-                Load more
+                Afficher plus de tricks
             </button>
         </a>
     {% endif %}

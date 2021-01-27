@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Bienvenue chez SnowTricks!{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://kit.fontawesome.com/f7591675f1.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
@@ -19,22 +19,22 @@
             <div class="collapse navbar-collapse" id="navbarColor02">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('trick_index') }}">Home</a>
+                        <a class="nav-link" href="{{ path('trick_index') }}">Accueil</a>
                     </li>
                     
                     {% if not app.user %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_login') }}">Sign in</a>
+                            <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_signup') }}">Sign up</a>
+                            <a class="nav-link" href="{{ path('app_signup') }}">S'inscrire</a>
                         </li>                        
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('show_user') }}">Profil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+                            <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -43,8 +43,11 @@
         
         {% block body %}{% endblock %}
         
-        <footer class="bg-dark p-3">
-            <div>Copyright @ year</div>
+        <footer class="bg-dark p-3 bottom">
+            <div>
+                Copyright @ year
+                <a href="#">Mentions légales</a>
+            </div>
         </footer>  
            
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>

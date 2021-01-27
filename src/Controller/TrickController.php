@@ -33,7 +33,6 @@ class TrickController extends AbstractController
         $rang = max(0, $request->query->getInt('rang', 0));
         $tricks = $trickRepository->findByPaginator($rang);
         $rang++;
-        //dd($tricks);
 
         $nbPagesMax = ceil(count($trickRepository->findAll()) / TrickRepository::PAGINATOR_PER_PAGE);
 
@@ -51,7 +50,6 @@ class TrickController extends AbstractController
         $rang = max(0, $request->query->getInt('rang', 0));
         $tricks = $trickRepository->findByPaginator($rang);
         $rang++;
-        //dd($tricks);
         $nbPagesMax = ceil(count($trickRepository->findAll()) / TrickRepository::PAGINATOR_PER_PAGE);
 
         $twig = $this->render('trick/_load_more.html.twig', [
@@ -63,9 +61,7 @@ class TrickController extends AbstractController
     }
 
     private function addImg($trick, $request, $slugger, $imageFile)
-    {   
-        //dd($imageTrick);
-        
+    {           
             $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
             
             $safeFilename = $slugger->slug($trick->getId());
@@ -120,7 +116,6 @@ class TrickController extends AbstractController
 
             //Add mainImage
             $mainImageFile = $form->get('image')->getData();
-            //dd($mainImageFile);
             if($mainImageFile)
             {
                 $finalMainImageFilename = $this->addImg($trick, $request, $slugger, $mainImageFile);
@@ -136,8 +131,6 @@ class TrickController extends AbstractController
             // -------- Gallery -------
             
             $images = $form->get('imageTricks')->getData();
-            //$images = $trick->getImageTricks();
-            //dd($images);
             foreach($images as $image){
                 $imageFile = $image->getFile();
 
@@ -148,7 +141,6 @@ class TrickController extends AbstractController
                     $imageTrick = new ImageTrick();
                     $imageTrick->setSrc($newFilename)
                             ->setTrick($trick);
-                    //$trick->addImageTrick($imageTrick);
                     $entityManager->persist($imageTrick);
                     $entityManager->flush();
                 }
@@ -213,7 +205,6 @@ class TrickController extends AbstractController
 
         ]);
 
-        // renvoyer aussi le form ? à tester après -> car include différent -> donc non?
         return $this->json(['code' => 200, 'twig' => $twig], 200);
 
     }
@@ -228,9 +219,7 @@ class TrickController extends AbstractController
         $formTrick->handleRequest($request);
 
         if ($formTrick->isSubmitted() && $formTrick->isValid()) {
-            //$this->getDoctrine()->getManager()->flush();
-            
-            //ici mainImg
+
             $imageFile = $formTrick->get('image')->getData();
             
             if($imageFile)
@@ -271,11 +260,9 @@ class TrickController extends AbstractController
         $formOption = $this->createForm(TrickOptionType::class);
         $formOption->handleRequest($request);
         if ($formOption->isSubmitted() && $formOption->isValid()) {
-            //$this->getDoctrine()->getManager()->flush();
 
             $images = $formOption->get('imageTricks')->getData();
-            //$images = $trick->getImageTricks();
-            //dd($images);
+
             foreach($images as $image){
                 $imageFile = $image->getFile();
 
@@ -286,7 +273,6 @@ class TrickController extends AbstractController
                     $imageTrick = new ImageTrick();
                     $imageTrick->setSrc($newFilename)
                             ->setTrick($trick);
-                    //$trick->addImageTrick($imageTrick);
                     $entityManager->persist($imageTrick);
                     $entityManager->flush();
                 }
@@ -314,11 +300,10 @@ class TrickController extends AbstractController
     public function delete(Request $request, Trick $trick, EntityManagerInterface $entityManager, Filesystem $filesystem): Response
     {
         if(!$trick){
-            //message flash ? en redirigeant vers trick_index?
             $this->addFlash('info', 'Trick introuvable !');
             return $this->redirectToRoute('trick_index');
         }else{
-            // 1. supprimer les fichiers img commencant par id_
+            
             $mainImage = $trick->getImage();
             $images = $trick->getImageTricks();
             
@@ -330,10 +315,10 @@ class TrickController extends AbstractController
                 $path = $this->getParameter('trick_directory').'/'.$mainImage;
                 $filesystem->remove($path);
             }
-            // 2. supprimer le trick
+            
             $entityManager->remove($trick);
             $entityManager->flush();
-            //message flash ? ok
+            
             $this->addFlash('info', 'Trick supprimé !');
             return $this->redirectToRoute('trick_index');
         }

@@ -48,32 +48,17 @@ class CommentController extends AbstractController
             $trick->addComment($comment);
             $user = $this->getUser();
             $user->addComment($comment);
-            //ajouter user + trick
-            //var_dump($user);
+
             $entityManager->persist($comment);
             $entityManager->flush();
 
-            //var_dump($comment);
-            //return $this->redirectToRoute('trick_index');
-            //$comment = new Comment();
-            //c'est quoi this ?
-            /*return $this->render('trick/show.html.twig', [
-                'trick' => $trick,
-                'commentForm' => $form->createView(),
-            ]);*/
             $comment = null;
             $form = $this->createForm(CommentType::class, $comment);
             
             $this->addFlash('info', 'Commentaire ajouté!');
             
-            //return $formClean->createView();
-
         }
 
-        /*return $this->render('comment/new.html.twig', [
-            'comment' => $comment,
-            'form' => $form->createView(),
-        ]);*/
         return $form->createView();
     }
 
@@ -87,39 +72,4 @@ class CommentController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="comment_edit", methods={"GET","POST"})
-    * @IsGranted("ROLE_USER")
-     */
-    /*public function edit(Request $request, Comment $comment): Response
-    {
-        $form = $this->createForm(CommentType::class, $comment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('comment_index');
-        }
-
-        return $this->render('comment/edit.html.twig', [
-            'comment' => $comment,
-            'form' => $form->createView(),
-        ]);
-    }*/
-
-    /**
-     * @Route("/{id}", name="comment_delete", methods={"DELETE"})
-     * @IsGranted("ROLE_USER")
-     */
-    /*public function delete(Request $request, Comment $comment): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($comment);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('comment_index');
-    }*/
 }

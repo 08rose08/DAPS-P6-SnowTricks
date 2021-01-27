@@ -2,7 +2,6 @@
 
 <div class="d-flex flex-column align-items-center my-4">
 
-
     {% for comment in comments %}
         <div class="d-flex flex-row justify-content-start col-sm-12 col-md-9 col-lg-6 my-1">
             <div class="col-2 m-auto p-2">
@@ -16,10 +15,10 @@
     {% endfor %}
     
     {% if previous >= 0 %}
-        <a class="change_page" href="{{ path('trick_change', { id: trick.id, offset: previous }) }}">Previous</a>
+        <a class="change_page" href="{{ path('trick_change', { id: trick.id, offset: previous }) }}">Précédent</a>
     {% endif %}
     {% if next < comments|length %}
-        <a class="change_page" href="{{ path('trick_change', { id: trick.id, offset: next }) }}">Next</a>
+        <a class="change_page" href="{{ path('trick_change', { id: trick.id, offset: next }) }}">Suivant</a>
     {% endif %}
 </div>
 

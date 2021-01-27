@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Trick{% endblock %}
+{% block title %}Editer le trick{% endblock %}
 
 {% block body %}
     <section class="container my-3">
-        <h1>Edit Trick</h1>
+        <h1>Editer le trick</h1>
 
         {{ include('trick/_formMain.html.twig', {'button_label': 'Update'}) }}
         <hr class="in-trick">
@@ -16,7 +16,7 @@
     </section>
 
 
-    <a href="{{ path('trick_index') }}">back to list</a>
+    <a href="{{ path('trick_index') }}">Retour à la page d'accueil</a>
 
 {% endblock %}
 {% block javascripts %}

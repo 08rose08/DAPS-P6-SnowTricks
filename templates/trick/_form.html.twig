@@ -15,7 +15,6 @@
 
         {% for videoField in formTrick.videos %}
             <li>
-                {#{{ form_errors(emailField) }}#}
                 {{ form_widget(videoField) }}
             </li>
         {% endfor %}
@@ -32,7 +31,6 @@
 
         {% for imageField in formTrick.imageTricks %}
             <li>
-                {#{{ form_errors(emailField) }}#}
                 {{ form_widget(imageField) }}
             </li>
         {% endfor %}
@@ -43,6 +41,6 @@
     <hr class="in-trick">
 
 
-    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
 
 {{ form_end(formTrick) }}

@@ -8,7 +8,6 @@
             <div class="card mb-3 col-11 col-md-3 col-lg-2 mx-md-2 p-0">
                 <img src="{{ asset('img/trick/' ~ image.src) }}" alt="" class="card-img">
                 <div class="bg-dark ml-auto border-secondary rounded flex-row py-2 px-3 absolute">
-                    {#<a href="{{ path('img_edit', {'id': image.id}) }}"><i class="fas fa-pencil-alt pr-3"></i></a>#}
                     <a href="{{ path('imageTrick_delete', {'id': image.id}) }}"><i class="fas fa-trash-alt"></i></a>
                 </div>
             </div>
@@ -47,6 +46,6 @@
     </ul>
 </div>
 
-<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+<button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
 
 {{ form_end(formOption) }}

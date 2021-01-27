@@ -34,49 +34,44 @@
                 {% if app.user %}
                     {{ include('comment/_form.html.twig', {'button_label': 'Leave a comment'}) }}
                     <hr class="in-trick">
-                     {#{{ include('comment/_form.html.twig') }} #}
-
                 {% endif %}
+
                 <div id="comments">
                     {{ include('comment/_index.html.twig') }}
                 </div>
-                
             </div>
         </article>
     </main>
 
 
 
-     <a href="{{ path('trick_index') }}">back to list</a>
+     <a href="{{ path('trick_index') }}">Retour à la page d'accueil</a>
 
-    {#<a href="{{ path('trick_edit', {'id': trick.id}) }}">edit</a>
-
-    {{ include('trick/_delete_form.html.twig') }} #}
+    {# {{ include('trick/_delete_form.html.twig') }} #}
 {% endblock %}
 
 {% block javascripts %}
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-<script>
-    function clickChangePage(event){
-        event.preventDefault();
+    <script>
+        function clickChangePage(event){
+            event.preventDefault();
+            
+            const URL = this.href;
+
+            axios.get(URL).then(function(response){
+                    console.log(response);
+                    document.getElementById('comments').innerHTML = response.data.twig.content;
+                    let changePage = document.querySelectorAll('.change_page');
+                    changePage.forEach(function(nom){
+                        nom.addEventListener('click', clickChangePage);
+                    })
+            });  
+        };
         
-        const URL = this.href;
+        let changePage = document.querySelector('.change_page');
+        changePage.addEventListener('click', clickChangePage);
 
-        axios.get(URL).then(function(response){
-                console.log(response);
-                document.getElementById('comments').innerHTML = response.data.twig.content;
-                let changePage = document.querySelectorAll('.change_page');
-                changePage.forEach(function(nom){
-                    nom.addEventListener('click', clickChangePage);
-                })
-        });  
-    };
-    
-    let changePage = document.querySelector('.change_page');
-    changePage.addEventListener('click', clickChangePage);
-
-
-</script>
+    </script>
 {% endblock %}
 
