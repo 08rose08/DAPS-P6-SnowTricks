@@ -14,6 +14,34 @@
     right : 20px;
     
 }
+
+html {
+    height:100%;
+}
+
+body {
+    height: 100%;
+    margin:0;
+    padding:0;
+}
+
+.global {
+    min-height: 100%;
+    position: relative;
+}
+
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.content {
+    padding-bottom: 50px;
+}
+
 .masthead {
     position: relative;
     width: 100%;
