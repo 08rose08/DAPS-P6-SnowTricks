@@ -18,9 +18,9 @@
         </div>
     {% endfor %}
 
-<div id="tools">
+<div id="tools" class="d-flex flex-column align-items-center">
     {% if app.user %}
-        <a href="{{ path('trick_new') }}">Créer un nouveau trick</a>
+        <a href="{{ path('trick_new') }}" class="my-4">Créer un nouveau trick</a>
     {% endif %}
     {% if rang < nbPagesMax %}
         <a id="load_more" href="{{ path('trick_more', {'rang': rang }) }}">
