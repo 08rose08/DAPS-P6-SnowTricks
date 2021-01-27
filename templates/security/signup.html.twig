@@ -1,58 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sign up!{% endblock %}
+{% block title %}S'inscrire !{% endblock %}
 
 {% block body %}
 
-{# <form method="post" class="container d-flex flex-column align-items-center my-5 py-5">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
     {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
-
-    <h1 class="h3 mb-3 font-weight-normal">Signup</h1>
-    <div class="card p-5 d-flex flex-column align-items-center">
-        <label for="inputUsername">Username</label>
-        <input type="username" value="{{ last_username }}" name="username" id="inputUsername" class="form-control mb-3" placeholder="Username" required autofocus>
-        <label for="inputEmail">Email</label>
-        <input type="email" value="{{ last_email }}" name="email" id="inputEmail" class="form-control mb-3" placeholder="Email" required>
-        <label for="inputPassword">Password</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
-    
-        <button class="btn btn-lg btn-primary m-auto" type="submit">
-            Create an account
-        </button>
-
-    </div>
-</form>#}
-
-
-    {% if app.user %}
-        <div class="container d-flex flex-column align-items-center my-5 py-5">
+        <div class="container d-flex flex-column align-items-center  my-5 py-5">
 
             <div class="mb-3">
-                You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                Vous êtes connecté.e en tant que {{ app.user.username }}, => <a href="{{ path('app_logout') }}">Déconnexion</a>
             </div>
         </div>
     {% else %}
         {{ form_start(form, {'attr': {'class': "container d-flex flex-column align-items-center my-5 py-5"}}) }}
-            {#{% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}#}
-            <h1 class="h3 mb-3 font-weight-normal">Signup</h1>
+            <h1 class="h3 mb-3 font-weight-normal">Inscription</h1>
             <div class="card p-5 d-flex flex-column align-items-center">
                 {{ form_row(form.username, {'attr': {'class': "mb-2"}}) }}
                 {{ form_row(form.email, {'attr': {'class': "mb-2"}}) }}
                 {{ form_row(form.password, {'attr': {'class': "mb-2"}}) }}
                 <button class="btn btn-lg btn-primary m-auto" type="submit">
-                    Create an account
+                    Créer mon compte
                 </button>
             </div>
-            {{ form_end(form) }}
-        {% endif %}    
+        {{ form_end(form) }}
+    {% endif %}    
 {% endblock %}

@@ -2,18 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\TrickRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TrickRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
  * @UniqueEntity(
  *  fields={"name"},
- *  message="name already exists !"
+ *  message="Ce nom existe déjà !"
  * ) 
  
  * */
@@ -28,12 +29,13 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank(message = "Le nom est obligatoire")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
-
+     * @Assert\NotBlank(message = "La description est obligatoire")
      */
     private $description;
 
@@ -50,6 +52,7 @@ class Trick
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank()
      */
     private $createdAt;
 

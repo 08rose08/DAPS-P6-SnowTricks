@@ -59,15 +59,12 @@ class SecurityController extends AbstractController
             $this->addFlash('ok', 'Un email d\'activation de compte a été envoyé à votre adresse mail.');
 
             return $this->redirectToRoute('app_login');
-            //return $this->render('security/sendmail.html.twig');
 
         }else{
             return $this->render('security/signup.html.twig', [
                 'form' => $form->createView()
                 ]);
         } 
-
-        //return $this->redirectToRoute('app_login');
         
     }
 
@@ -76,11 +73,7 @@ class SecurityController extends AbstractController
      */
     public function validateAccount(User $user, Request $request, EntityManagerInterface $entityManager)
     {
-        //trouver l'utilisateur ? puis comparer le token ?
-        //trouver juste le token et isValid=true ? findByToken ?
         $mailToken = $request->query->get('confirm');
-        //var_dump($token);
-        //editer l'user via le repo ?
         $userToken = $user->getToken();
         if($mailToken == $userToken){
             $user->setIsValid(true);
@@ -222,7 +215,6 @@ class SecurityController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            //return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
         }
 
         return $this->render('user/show.html.twig', [

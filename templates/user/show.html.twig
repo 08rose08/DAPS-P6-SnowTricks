@@ -14,7 +14,7 @@
                     <p>
                         Photo de profil : 
                         {% if user.image %}
-                            <img class="user-img ml-0" src="{{ asset('img/avatar/' ~ user.image) }}" alt=""> 
+                            <img class="user-img ml-0" src="{{ asset('img/avatar/' ~ user.image) }}" alt="image de profil"> 
                         {% else %}
                             Pas de fichier enregistré.
                         {% endif %}

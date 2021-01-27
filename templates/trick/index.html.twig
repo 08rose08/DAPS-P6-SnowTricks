@@ -37,55 +37,49 @@
         </section>
         <div id="tools">
             {% if app.user %}
-                <a href="{{ path('trick_new') }}">Create new</a>
+                <a href="{{ path('trick_new') }}" class="my-2">Créer un nouveau trick</a>
             {% endif %}
             {% if rang < nbPagesMax %}
                 <a id="load_more" href="{{ path('trick_more', {'rang': rang }) }}">
                     <button class="btn btn-primary d-flex btn-spinner" type="button" >
                         <div class="spinner-anim mr-2 my-auto"><i class="fas fa-spinner "></i></div>
-                        Load more
+                        Afficher plus de tricks
                     </button>
                 </a>
-                {#<a href="{{ path('trick_index', {'rang': rang }) }}">
-                    <button class="btn btn-primary d-flex btn-spinner" type="button" >
-                        <div class="spinner-anim mr-2 my-auto"><i class="fas fa-spinner "></i></div>
-                        Load more
-                    </button>
-                </a>#}
             {% endif %}
         </div>
         
         
     </main> 
-    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes)-->
-        <div class="btn-to-top">
-            <a class="d-block text-center text-teal rounded-circle bg-dark" href="#tricks"><i class="fa fa-chevron-up"></i></a>
-        </div>    
+    <!-- Scroll to Top Button -->
+    <div class="btn-to-top">
+        <a class="d-block text-center text-teal rounded-circle bg-dark" href="#tricks"><i class="fa fa-chevron-up"></i></a>
+    </div>    
 
 {% endblock %}
 
 {% block javascripts %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="{{ asset('js/scripts.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="{{ asset('js/scripts.js') }}"></script>
 
-<script>
-    function clickLoadMore(event){
-        event.preventDefault();
-        
-        const URL = this.href;
+    <script>
+        function clickLoadMore(event){
+            event.preventDefault();
+            
+            const URL = this.href;
 
-        axios.get(URL).then(function(response){
-                console.log(response);
-                document.getElementById('tools').remove();
-                document.querySelector('section').innerHTML += response.data.twig.content;
-                let loadMore = document.getElementById('load_more');
-                loadMore.addEventListener('click', clickLoadMore);
-            });  
-    };
-    let loadMore = document.getElementById('load_more');
-    loadMore.addEventListener('click', clickLoadMore);
+            axios.get(URL).then(function(response){
+                    console.log(response);
+                    document.getElementById('tools').remove();
+                    document.querySelector('section').innerHTML += response.data.twig.content;
+                    let loadMore = document.getElementById('load_more');
+                    loadMore.addEventListener('click', clickLoadMore);
+                });  
+        };
+        let loadMore = document.getElementById('load_more');
+        loadMore.addEventListener('click', clickLoadMore);
 
 
-</script>
+    </script>
 {% endblock %}
