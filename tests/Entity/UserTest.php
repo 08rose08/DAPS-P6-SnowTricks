@@ -3,12 +3,13 @@
 namespace App\Tests\Entity;
 
 use App\Entity\User;
+use App\Entity\FigType;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class UserTest extends KernelTestCase
 {
     public function getEntity(): User
-    {        
+    {           
         return (new User())
             ->setUsername('UserTest')
             ->setEmail('userTest@test.fr')
@@ -37,7 +38,7 @@ class UserTest extends KernelTestCase
         $this->assertHasErrors($user, 1);
     }
 
-    public function testInvalidEmailUsernameEntity() 
+    public function testInvalidUniqueEmailEntity() 
     {  
         $user = $this->getEntity()->setEmail("user@test.fr"); //Email existant dans la fixture
         $this->assertHasErrors($user, 1);

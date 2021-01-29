@@ -15,6 +15,8 @@ class TrickTest extends KernelTestCase
         $figTypeRepository = self::$container->get(FigTypeRepository::class);
         $figType = $figTypeRepository->findOneBy(['id' => 1]);
 
+        //$figType = (new FigType())->setName("");
+
         return (new Trick())
             ->setName("Trick")
             ->setFigType($figType)
@@ -36,7 +38,7 @@ class TrickTest extends KernelTestCase
         $this->assertHasErrors($this->getEntity(), 0);
     }
 
-    public function testInvalidEntity() 
+    public function testInvalidUniqueEntity() 
     {  
         $trick = $this->getEntity()->setName("Trick Grab n°1"); //Nom d'un trick existant dans la fixture
         $this->assertHasErrors($trick, 1);
