@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Erreur 404{% endblock %}
+
+{% block body %}
+    <main class="container">
+
+        <h1 class="h1 text-center">Page inexistante ?</h1>
+
+        <p class="text-center">Oups ! La page que vous cherchez ne semble pas exister !</p>
+
+        <p class="text-center"><a href="{{ path('trick_index') }}">Retour à la page d'accueil</a></p>
+
+    </main>
+{% endblock %}
