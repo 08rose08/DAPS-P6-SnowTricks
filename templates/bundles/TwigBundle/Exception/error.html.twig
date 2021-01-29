@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Erreur{% endblock %}
+
+{% block body %}
+    <main class="container">
+
+        <h1 class="h1 text-center">Erreur</h1>
+
+        <p class="text-center">Aïe ! Il semblerait qu'une erreur se soit produite !</p>
+
+        <p class="text-center"><a href="{{ path('trick_index') }}">Retour à la page d'accueil</a></p>
+
+    </main>
+{% endblock %}
