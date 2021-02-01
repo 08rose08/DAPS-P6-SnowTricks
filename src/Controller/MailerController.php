@@ -26,7 +26,7 @@ class MailerController extends AbstractController
             ->text('Sending emails is fun again!')
             ->html('<p>Salut '.$user->getUsername().',</p>
             <p>clique sur ce lien pour activer ton compte Snowtricks : 
-            <a href="http://localhost:8000/user/'.$user->getId().'/validate?confirm='.$user->getToken().'">localhost:8000/user/'.$user->getId().'/validate?confirm='.$user->getToken().'</a><br>
+            <a href="http://naudin-rose.com/snowtricks/user/'.$user->getId().'/validate?confirm='.$user->getToken().'">localhost:8000/user/'.$user->getId().'/validate?confirm='.$user->getToken().'</a><br>
              si le lien ne fonctionne pas, copie-colle l\'URL dans ton navigateur</p>
              <p>Bienvenue dans la communauté Snowtricks,<br>
              L\'équipe Snowtricks</p>');
@@ -46,7 +46,7 @@ class MailerController extends AbstractController
             ->text('Sending emails is fun again!')
             ->html('<p>Salut '.$user->getUsername().',</p>
             <p>clique sur ce lien pour définir un nouveau mot de passe Snowtricks : 
-            <a href="http://localhost:8000/user/'.$user->getId().'/change?confirm='.$user->getToken().'">localhost:8000/user/'.$user->getId().'/change?confirm='.$user->getToken().'</a><br>
+            <a href="http://naudin-rose.com/snowtricks/user/'.$user->getId().'/change?confirm='.$user->getToken().'">localhost:8000/user/'.$user->getId().'/change?confirm='.$user->getToken().'</a><br>
              si le lien ne fonctionne pas, copie-colle l\'URL dans ton navigateur</p>
              <p>Bon retour dans la communauté Snowtricks,<br>
              L\'équipe Snowtricks</p>');
