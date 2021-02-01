@@ -52,7 +52,7 @@ class Trick
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\NotBlank()
+     
      */
     private $createdAt;
 
