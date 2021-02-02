@@ -22,4 +22,5 @@ For this project, we will focus on the technical creation of the site for Jimmy.
   * Select the appropriate programming languages for the development of the application
 
 ## Let's go
-You need to create your database (and make the migrations), update the .env with the database and the mailer and update the URL in the MailerController ;)
+Use composer.
+Then you need to create your database (and make the migrations + fixtures), update the .env with the database and the mailer and update the URL in the MailerController ;)
