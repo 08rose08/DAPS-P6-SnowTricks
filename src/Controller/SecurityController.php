@@ -3,26 +3,27 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\PassType;
 use App\Form\UserType;
 use App\Form\SignupType;
 use App\Form\UsernameType;
-use App\Form\PassType;
 
 use App\Repository\UserRepository;
 
+use App\Controller\MailerController;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Controller\MailerController;
-use Symfony\Component\Mailer\MailerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
 
@@ -182,7 +183,7 @@ class SecurityController extends AbstractController
      * @Route ("/profil", name="show_user", methods={"GET", "POST"})
      * @IsGranted("ROLE_USER")
      */
-    public function show(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function show(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger, UserRepository $userRepository, Filesystem $filesystem): Response
     {   
                 //ici vérifier que c'est le bon user 
         $user = $this->getUser();
@@ -196,6 +197,13 @@ class SecurityController extends AbstractController
 
             if($imageFile)
             {
+                $oldFile = $userRepository->findOneBy(['id' => $user->getId()]);
+                $oldFileName = $oldFile->getImage();
+                if($oldFileName != 'default.jpg'){
+                    $path = $this->getParameter('avatar_directory').'/'.$oldFileName;
+                    $filesystem->remove($path);
+                }
+
                 $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
             
                 $safeFilename = $slugger->slug($user->getId());
